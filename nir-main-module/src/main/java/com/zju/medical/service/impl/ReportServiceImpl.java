@@ -44,6 +44,32 @@ public class ReportServiceImpl implements ReportService {
         /**
          * 根据id查询数据库中用户的相关信息生成{@link com.zju.medical.nir.common.pojo.bo.ReportDataBO}对象
          */
+        ReportDataBO reportData = this.createReportData(userId);
+
+        /**
+         * 调用 pdfReportService 生成报告
+         */
+        String pdfAbsPath = pdfReportService.createPdf(reportData);
+        String relativePath = getPathRelativeToClassPath(pdfAbsPath);
+        /**
+         * 封装ReportMessage信息返回
+         */
+        ReportMessage reportMessage = new ReportMessage();
+        if (StringUtils.isEmpty(relativePath)) {
+            reportMessage.setCreated(false);
+            return reportMessage;
+        }
+        reportMessage.setAbsPath(pdfAbsPath);
+        reportMessage.setRelativePath(relativePath);
+        reportMessage.setCreated(true);
+
+        return reportMessage;
+    }
+
+
+    // 根据id，找到用户报告中所需要的数据
+    private ReportDataBO createReportData(int userId) {
+
         ReportDataBO reportData = new ReportDataBO();
         UserDO user = userService.selectUserById(userId);
         reportData.setUserId(user.getId());
@@ -110,26 +136,9 @@ public class ReportServiceImpl implements ReportService {
         taskAndBloodOxygen.put(AdhdTaskTypeEnum.STROOP_COLOR_WORDS_TASK, taskBloodOxygen);
 
         reportData.setTaskBloodOxygenInfo(taskAndBloodOxygen);
-
-        /**
-         * 调用 pdfReportService 生成报告
-         */
-        String pdfAbsPath = pdfReportService.createPdf(reportData);
-        String relativePath = getPathRelativeToClassPath(pdfAbsPath);
-        /**
-         * 封装ReportMessage信息返回
-         */
-        ReportMessage reportMessage = new ReportMessage();
-        if (StringUtils.isEmpty(relativePath)) {
-            reportMessage.setCreated(false);
-            return reportMessage;
-        }
-        reportMessage.setAbsPath(pdfAbsPath);
-        reportMessage.setRelativePath(relativePath);
-        reportMessage.setCreated(true);
-
-        return reportMessage;
+        return reportData;
     }
+
 
 
     private String getPathRelativeToClassPath(String pdfAbsPath) {

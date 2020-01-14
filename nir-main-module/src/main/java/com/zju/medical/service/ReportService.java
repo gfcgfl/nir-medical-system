@@ -16,4 +16,10 @@ public interface ReportService {
      */
     ReportMessage createUserReportById(Integer userId);
 
+//    /**
+//     * 检查当前用户的报告是否已经存在
+//     * @param userId
+//     * @return
+//     */
+//    ReportMessage checkExist(Integer userId);
 }

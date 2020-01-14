@@ -52,7 +52,7 @@ public class PdfReportServiceImpl implements PdfReportService {
                 = waveformImgService.createImgFile(reportDataBO.getTaskBloodOxygenInfo(),
                 reportDataBO.getUserId().toString());
 
-        //创建文件
+        //创建pdf文件
         File pdfDir = new File(ReportConstant.CLASSPATH ,ReportConstant.PDF_FILE_SAVE_PATH);
         FileUtils.createDirectory(pdfDir);
 

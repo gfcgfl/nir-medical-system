@@ -73,15 +73,16 @@ public class MarkServiceImpl implements MarkService {
 //                }
 
                 if (temp.matches(rePattern)) {
-                    LocalDateTime recordTime = LocalDateTime.parse(temp.substring(0, formatterString.length()), formatter);
+                    LocalDateTime recordTime = LocalDateTime.parse(temp.substring(0,formatterString.length()), formatter);
                     for (Mark mark : marksToMark) {
                         LocalDateTime markTime = LocalDateTime.parse(mark.getMarkTime(), formatter);
-                        Duration duration = Duration.between(recordTime, markTime);
-                        if (!duration.isNegative() && duration.getSeconds() <= 1) {
+                        Duration duration = Duration.between(recordTime,markTime);
+                        if (!duration.isNegative() && duration.getSeconds()<=1) {
                             outTemp.append("\t\tmark" + mark.getMarkId() + ":" + mark.getMarkName());
                         }
                     }
                 }
+
 
 
                 bw.write(outTemp.toString());

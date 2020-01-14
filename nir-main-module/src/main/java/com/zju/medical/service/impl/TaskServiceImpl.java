@@ -44,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
                 ReyTaskVO task1 = taskDataAndMark.getTask1();
                 ReyTaskDO target = new ReyTaskDO();
                 BeanUtils.copyProperties(task1, target);
+                target.setUserId(taskDataAndMark.getUserId());
                 result = this.addReyTask(target);
                 break;
             }
@@ -52,6 +53,7 @@ public class TaskServiceImpl implements TaskService {
                 WordTaskVO task2 = taskDataAndMark.getTask2();
                 WordTaskDO target = new WordTaskDO();
                 BeanUtils.copyProperties(task2, target);
+                target.setUserId(taskDataAndMark.getUserId());
                 result = this.addWordTask(target);
                 break;
             }
@@ -59,6 +61,7 @@ public class TaskServiceImpl implements TaskService {
                 StroopTaskVO task3 = taskDataAndMark.getTask3();
                 StroopTaskDO target = new StroopTaskDO();
                 BeanUtils.copyProperties(task3, target);
+                target.setUserId(taskDataAndMark.getUserId());
                 result = this.addStroopTask(target);
                 break;
             }
@@ -67,6 +70,7 @@ public class TaskServiceImpl implements TaskService {
                 RestingTaskVO taskQuiet = taskDataAndMark.getTaskQuiet();
                 RestingTaskDO target = new RestingTaskDO();
                 BeanUtils.copyProperties(taskQuiet, target);
+//                target.setUserId(taskDataAndMark.getUserId());
                 result = this.addRestingTask(target);
                 break;
             }
