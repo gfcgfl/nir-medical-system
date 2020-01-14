@@ -33,6 +33,8 @@ public class TaskController {
     public ReturnResult<Object> addAdhdTask(@RequestParam("file") MultipartFile file, String data) {
 
         TaskDataAndMark taskDataAndMark = JsonUtils.objectFromJson(data, TaskDataAndMark.class);
+        if (true)
+        return new ReturnResult<>("ok", null, null);
         String RPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         String tempFilePath = "temp.txt";
         File tempFile = new File(RPath, tempFilePath);

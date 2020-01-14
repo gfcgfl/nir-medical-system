@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class UserController {
+
     @PostMapping(value = "/user")
     public ReturnResult<Integer> addUser(@RequestBody UserDO userDO) {
 
