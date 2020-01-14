@@ -45,20 +45,16 @@ public class TaskController {
 //            return new ReturnResult<>("ok", "true", null);
 //
 //        }
-        String RPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String tempFilePath = "temp.txt";
-        File tempFile = new File(RPath, tempFilePath);
-//        File tempFile = null;
-//        try {
-//            tempFile = cpr.getFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            tempFile = cpr.getFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String resourcePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String dataFileDirPath = "static";
+        File dataFileDir = new File(resourcePath, dataFileDirPath);
+
+        if (!dataFileDir.exists()) {
+            dataFileDir.mkdir();
+        }
+
+        File tempFile = new File(dataFileDir, file.getOriginalFilename());
+
         if (!tempFile.exists()) {
             try {
                 tempFile.createNewFile();
@@ -71,11 +67,10 @@ public class TaskController {
         try {
             file.transferTo(tempFile);
         } catch (IOException e) {
+            logger.warn("转移上传的文件失败");
             e.printStackTrace();
         }
-
-
-        System.out.println(taskDataAndMark.getMarks());
+        //System.out.println(taskDataAndMark.getMarks());
         String absPath = markService.doMark(taskDataAndMark.getMarks(), tempFile);
 
         //将TASK信息存入数据库

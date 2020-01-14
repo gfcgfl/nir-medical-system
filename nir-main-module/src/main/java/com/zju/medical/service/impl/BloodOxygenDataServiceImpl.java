@@ -1,8 +1,8 @@
 package com.zju.medical.service.impl;
 
 
+import com.zju.medical.service.BloodOxygenDataPathService;
 import com.zju.medical.service.BloodOxygenDataService;
-import com.zju.medical.service.DataPathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.io.File;
 public class BloodOxygenDataServiceImpl implements BloodOxygenDataService {
 
     @Autowired
-    private DataPathService dataPathService;
+    private BloodOxygenDataPathService dataPathService;
 
     @Override
     public boolean dataFileParseAndSave(String ext, File file, Integer userId, Integer task) {

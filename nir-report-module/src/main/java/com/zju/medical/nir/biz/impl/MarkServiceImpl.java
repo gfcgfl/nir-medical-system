@@ -33,6 +33,11 @@ public class MarkServiceImpl implements MarkService {
     @Override
     public String doMark(List<Mark> marks, File file) {
 
+        //没有标记
+        if (null!= marks || marks.size()<1){
+            return file.getAbsolutePath();
+        }
+
         File infile = file;
         File outfile = new File(infile.getParent(), "marked" + infile.getName());
         if (!infile.exists()) {
