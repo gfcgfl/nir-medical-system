@@ -34,12 +34,12 @@ public class MarkServiceImpl implements MarkService {
     public String doMark(List<Mark> marks, File file) {
 
         //没有标记
-        if (null!= marks || marks.size()<1){
+        if (null == marks || marks.size() < 1) {
             return file.getAbsolutePath();
         }
 
         File infile = file;
-        File outfile = new File(infile.getParent(), "marked" + infile.getName());
+        File outfile = new File(infile.getParent(), "marked-" + infile.getName());
         if (!infile.exists()) {
             logger.warn("数据文件不存在");
             return null;
@@ -73,16 +73,15 @@ public class MarkServiceImpl implements MarkService {
 //                }
 
                 if (temp.matches(rePattern)) {
-                    LocalDateTime recordTime = LocalDateTime.parse(temp.substring(0,formatterString.length()), formatter);
+                    LocalDateTime recordTime = LocalDateTime.parse(temp.substring(0, formatterString.length()), formatter);
                     for (Mark mark : marksToMark) {
                         LocalDateTime markTime = LocalDateTime.parse(mark.getMarkTime(), formatter);
-                        Duration duration = Duration.between(recordTime,markTime);
-                        if (!duration.isNegative() && duration.getSeconds()<=1) {
+                        Duration duration = Duration.between(recordTime, markTime);
+                        if (!duration.isNegative() && duration.getSeconds() <= 1) {
                             outTemp.append("\t\tmark" + mark.getMarkId() + ":" + mark.getMarkName());
                         }
                     }
                 }
-
 
 
                 bw.write(outTemp.toString());
