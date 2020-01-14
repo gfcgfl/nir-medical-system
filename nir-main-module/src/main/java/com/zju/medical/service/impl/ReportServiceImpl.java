@@ -7,12 +7,14 @@ import com.zju.medical.common.pojo.xdo.*;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.common.utils.FileUtils;
 import com.zju.medical.common.xenum.AdhdTaskTypeEnum;
+import com.zju.medical.dao.mapper.ReportMapper;
 import com.zju.medical.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -36,7 +38,8 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private PdfReportService pdfReportService;
 
-
+    @Autowired
+    private ReportMapper reportMapper;
 
     @Override
     public ReportMessage createUserReportById(Integer userId) {
@@ -50,6 +53,18 @@ public class ReportServiceImpl implements ReportService {
          * 调用 pdfReportService 生成报告
          */
         String pdfAbsPath = pdfReportService.createPdf(reportData);
+
+        if (pdfAbsPath == null || pdfAbsPath.isEmpty()) {
+            ReportMessage reportMessage = new ReportMessage();
+            reportMessage.setCreated(false);
+            return reportMessage;
+        }
+
+        /**
+         * 插入或者更新report 路径到数据库
+         */
+        ReturnResult<Integer> result = upsertReport(pdfAbsPath, userId);
+
         String relativePath = getPathRelativeToClassPath(pdfAbsPath);
         /**
          * 封装ReportMessage信息返回
@@ -64,6 +79,39 @@ public class ReportServiceImpl implements ReportService {
         reportMessage.setCreated(true);
 
         return reportMessage;
+    }
+
+    private ReturnResult<Integer> upsertReport(String pdfAbsPath, Integer userId) {
+        Date date = new Date();
+        ReportDO reportDO = reportMapper.selectByPrimaryKey(userId);
+
+        try {
+            if (reportDO != null) {
+                // 更新
+                reportDO.setReportPath(pdfAbsPath);
+                reportDO.setUpdateTime(date);
+                reportMapper.updateByPrimaryKey(reportDO);
+                return ReturnResult.SUCCEED;
+            } else {
+                // 插入
+                reportDO = new ReportDO();
+
+                reportDO.setCreateTime(date);
+                reportDO.setReportPath(pdfAbsPath);
+                reportDO.setUpdateTime(date);
+                reportDO.setUserId(userId);
+                int insert = reportMapper.insert(reportDO);
+                if (insert == -1) {
+                    return ReturnResult.FAILED;
+                } else {
+                    return ReturnResult.SUCCEED;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ReturnResult.FAILED;
+        }
+
     }
 
 
@@ -135,10 +183,13 @@ public class ReportServiceImpl implements ReportService {
         taskBloodOxygen.setFilePath(bloodOxygen.getDataPath3());
         taskAndBloodOxygen.put(AdhdTaskTypeEnum.STROOP_COLOR_WORDS_TASK, taskBloodOxygen);
 
+        taskBloodOxygen = new ReportDataBO.BloodOxygenInfoForTask();
+        taskBloodOxygen.setFilePath(bloodOxygen.getDataPath4());
+        taskAndBloodOxygen.put(AdhdTaskTypeEnum.RESTING_STATE_TASK, taskBloodOxygen);
+
         reportData.setTaskBloodOxygenInfo(taskAndBloodOxygen);
         return reportData;
     }
-
 
 
     private String getPathRelativeToClassPath(String pdfAbsPath) {

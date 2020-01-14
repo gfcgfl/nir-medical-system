@@ -16,6 +16,7 @@ public class ReturnResult<T> {
 
 
     public static final ReturnResult<Integer> FAILED = new ReturnResult<>(ResultCodeEnum.FAIL);
+    public static final ReturnResult<Integer> SUCCEED = new ReturnResult<>(ResultCodeEnum.SUCCESS);
 
     public ReturnResult() {
     }
