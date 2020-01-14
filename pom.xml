@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
+        <version>2.1.11.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.zju.medical</groupId>
@@ -23,6 +23,9 @@
     <properties>
         <java.version>1.8</java.version>
         <jackson.databind.version>2.9.8</jackson.databind.version>
+        <mybatis.springboot.version>2.1.0</mybatis.springboot.version>
+        <itextpdf.version>5.5.13</itextpdf.version>
+        <druid.version>1.1.10</druid.version>
     </properties>
 
 
@@ -34,6 +37,34 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.databind.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.springboot.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+                <!---->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>${itextpdf.version}</version>
+            </dependency>
+
+            <!--druid 数据库连接池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+
         </dependencies>
         <!--jackson json-->
 
@@ -48,6 +79,9 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

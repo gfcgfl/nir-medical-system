@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zju.medical.dao.mapper.ClinicalInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zju.medical.common.pojo.xdo.ClinicalInfoDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="symptom_time" jdbcType="INTEGER" property="symptomTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zju.medical.common.pojo.xdo.ClinicalInfoDOWithBLOBs">
+    <result column="chief_complaint" jdbcType="LONGVARCHAR" property="chiefComplaint" />
+    <result column="present_illness_history" jdbcType="LONGVARCHAR" property="presentIllnessHistory" />
+    <result column="treatment_history" jdbcType="LONGVARCHAR" property="treatmentHistory" />
+    <result column="past_history" jdbcType="LONGVARCHAR" property="pastHistory" />
+    <result column="personal_history" jdbcType="LONGVARCHAR" property="personalHistory" />
+    <result column="family_history" jdbcType="LONGVARCHAR" property="familyHistory" />
+    <result column="treatment_proposal" jdbcType="LONGVARCHAR" property="treatmentProposal" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, symptom_time, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    chief_complaint, present_illness_history, treatment_history, past_history, personal_history, 
+    family_history, treatment_proposal
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from clinical_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from clinical_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from clinical_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from clinical_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOExample">
+    delete from clinical_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOWithBLOBs">
+    insert into clinical_info (id, user_id, symptom_time, 
+      create_time, update_time, chief_complaint, 
+      present_illness_history, treatment_history, 
+      past_history, personal_history, family_history, 
+      treatment_proposal)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{symptomTime,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{chiefComplaint,jdbcType=LONGVARCHAR}, 
+      #{presentIllnessHistory,jdbcType=LONGVARCHAR}, #{treatmentHistory,jdbcType=LONGVARCHAR}, 
+      #{pastHistory,jdbcType=LONGVARCHAR}, #{personalHistory,jdbcType=LONGVARCHAR}, #{familyHistory,jdbcType=LONGVARCHAR}, 
+      #{treatmentProposal,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOWithBLOBs">
+    insert into clinical_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="symptomTime != null">
+        symptom_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="chiefComplaint != null">
+        chief_complaint,
+      </if>
+      <if test="presentIllnessHistory != null">
+        present_illness_history,
+      </if>
+      <if test="treatmentHistory != null">
+        treatment_history,
+      </if>
+      <if test="pastHistory != null">
+        past_history,
+      </if>
+      <if test="personalHistory != null">
+        personal_history,
+      </if>
+      <if test="familyHistory != null">
+        family_history,
+      </if>
+      <if test="treatmentProposal != null">
+        treatment_proposal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="symptomTime != null">
+        #{symptomTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chiefComplaint != null">
+        #{chiefComplaint,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="presentIllnessHistory != null">
+        #{presentIllnessHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="treatmentHistory != null">
+        #{treatmentHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pastHistory != null">
+        #{pastHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="personalHistory != null">
+        #{personalHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="familyHistory != null">
+        #{familyHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="treatmentProposal != null">
+        #{treatmentProposal,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOExample" resultType="java.lang.Long">
+    select count(*) from clinical_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update clinical_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.symptomTime != null">
+        symptom_time = #{record.symptomTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.chiefComplaint != null">
+        chief_complaint = #{record.chiefComplaint,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.presentIllnessHistory != null">
+        present_illness_history = #{record.presentIllnessHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.treatmentHistory != null">
+        treatment_history = #{record.treatmentHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.pastHistory != null">
+        past_history = #{record.pastHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.personalHistory != null">
+        personal_history = #{record.personalHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.familyHistory != null">
+        family_history = #{record.familyHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.treatmentProposal != null">
+        treatment_proposal = #{record.treatmentProposal,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update clinical_info
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      symptom_time = #{record.symptomTime,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      chief_complaint = #{record.chiefComplaint,jdbcType=LONGVARCHAR},
+      present_illness_history = #{record.presentIllnessHistory,jdbcType=LONGVARCHAR},
+      treatment_history = #{record.treatmentHistory,jdbcType=LONGVARCHAR},
+      past_history = #{record.pastHistory,jdbcType=LONGVARCHAR},
+      personal_history = #{record.personalHistory,jdbcType=LONGVARCHAR},
+      family_history = #{record.familyHistory,jdbcType=LONGVARCHAR},
+      treatment_proposal = #{record.treatmentProposal,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update clinical_info
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      symptom_time = #{record.symptomTime,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOWithBLOBs">
+    update clinical_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="symptomTime != null">
+        symptom_time = #{symptomTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chiefComplaint != null">
+        chief_complaint = #{chiefComplaint,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="presentIllnessHistory != null">
+        present_illness_history = #{presentIllnessHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="treatmentHistory != null">
+        treatment_history = #{treatmentHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="pastHistory != null">
+        past_history = #{pastHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="personalHistory != null">
+        personal_history = #{personalHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="familyHistory != null">
+        family_history = #{familyHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="treatmentProposal != null">
+        treatment_proposal = #{treatmentProposal,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDOWithBLOBs">
+    update clinical_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      symptom_time = #{symptomTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      chief_complaint = #{chiefComplaint,jdbcType=LONGVARCHAR},
+      present_illness_history = #{presentIllnessHistory,jdbcType=LONGVARCHAR},
+      treatment_history = #{treatmentHistory,jdbcType=LONGVARCHAR},
+      past_history = #{pastHistory,jdbcType=LONGVARCHAR},
+      personal_history = #{personalHistory,jdbcType=LONGVARCHAR},
+      family_history = #{familyHistory,jdbcType=LONGVARCHAR},
+      treatment_proposal = #{treatmentProposal,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zju.medical.common.pojo.xdo.ClinicalInfoDO">
+    update clinical_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      symptom_time = #{symptomTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,28 @@
+logging:
+  config: classpath:logback.xml
+
+spring:
+  datasource:
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.13.81.186:3306/nir?useSSL=false&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: lab205
+  servlet:
+    multipart:
+      max-request-size: 50MB   #上传文件总的最大值
+      max-file-size: 10MB     #上传单个文件的最大值
+  aop:
+    auto: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.zju.medical.nir.dal.model  # 注意：对应实体类的路
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    session:
+      timeout: 86400s   #session过期时间24h

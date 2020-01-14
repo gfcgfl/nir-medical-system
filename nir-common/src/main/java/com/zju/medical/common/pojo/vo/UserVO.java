@@ -1,7 +1,7 @@
 package com.zju.medical.common.pojo.vo;
 
 public class UserVO {
-//    private Integer id;
+    private Integer id;
 
     private String name;
 

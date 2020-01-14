@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zju.medical.dao.mapper.ReyTaskMapper">
+  <resultMap id="BaseResultMap" type="com.zju.medical.common.pojo.xdo.ReyTaskDO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="rey_si_score" jdbcType="INTEGER" property="reySiScore" />
+    <result column="rey_di_score" jdbcType="INTEGER" property="reyDiScore" />
+    <result column="rey_present_start" jdbcType="VARCHAR" property="reyPresentStart" />
+    <result column="rey_present_end" jdbcType="VARCHAR" property="reyPresentEnd" />
+    <result column="rey_sd_score" jdbcType="INTEGER" property="reySdScore" />
+    <result column="rey_dd_score" jdbcType="INTEGER" property="reyDdScore" />
+    <result column="rey_delay_start" jdbcType="VARCHAR" property="reyDelayStart" />
+    <result column="rey_delay_end" jdbcType="VARCHAR" property="reyDelayEnd" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, rey_si_score, rey_di_score, rey_present_start, rey_present_end, rey_sd_score, 
+    rey_dd_score, rey_delay_start, rey_delay_end, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDOExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from adhd_rey_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from adhd_rey_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from adhd_rey_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDOExample">
+    delete from adhd_rey_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDO">
+    insert into adhd_rey_task (id, user_id, rey_si_score, 
+      rey_di_score, rey_present_start, rey_present_end, 
+      rey_sd_score, rey_dd_score, rey_delay_start, 
+      rey_delay_end, create_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{reySiScore,jdbcType=INTEGER}, 
+      #{reyDiScore,jdbcType=INTEGER}, #{reyPresentStart,jdbcType=VARCHAR}, #{reyPresentEnd,jdbcType=VARCHAR}, 
+      #{reySdScore,jdbcType=INTEGER}, #{reyDdScore,jdbcType=INTEGER}, #{reyDelayStart,jdbcType=VARCHAR}, 
+      #{reyDelayEnd,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDO">
+    insert into adhd_rey_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="reySiScore != null">
+        rey_si_score,
+      </if>
+      <if test="reyDiScore != null">
+        rey_di_score,
+      </if>
+      <if test="reyPresentStart != null">
+        rey_present_start,
+      </if>
+      <if test="reyPresentEnd != null">
+        rey_present_end,
+      </if>
+      <if test="reySdScore != null">
+        rey_sd_score,
+      </if>
+      <if test="reyDdScore != null">
+        rey_dd_score,
+      </if>
+      <if test="reyDelayStart != null">
+        rey_delay_start,
+      </if>
+      <if test="reyDelayEnd != null">
+        rey_delay_end,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="reySiScore != null">
+        #{reySiScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDiScore != null">
+        #{reyDiScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyPresentStart != null">
+        #{reyPresentStart,jdbcType=VARCHAR},
+      </if>
+      <if test="reyPresentEnd != null">
+        #{reyPresentEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="reySdScore != null">
+        #{reySdScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDdScore != null">
+        #{reyDdScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDelayStart != null">
+        #{reyDelayStart,jdbcType=VARCHAR},
+      </if>
+      <if test="reyDelayEnd != null">
+        #{reyDelayEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDOExample" resultType="java.lang.Long">
+    select count(*) from adhd_rey_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update adhd_rey_task
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reySiScore != null">
+        rey_si_score = #{record.reySiScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.reyDiScore != null">
+        rey_di_score = #{record.reyDiScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.reyPresentStart != null">
+        rey_present_start = #{record.reyPresentStart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reyPresentEnd != null">
+        rey_present_end = #{record.reyPresentEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reySdScore != null">
+        rey_sd_score = #{record.reySdScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.reyDdScore != null">
+        rey_dd_score = #{record.reyDdScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.reyDelayStart != null">
+        rey_delay_start = #{record.reyDelayStart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reyDelayEnd != null">
+        rey_delay_end = #{record.reyDelayEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update adhd_rey_task
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      rey_si_score = #{record.reySiScore,jdbcType=INTEGER},
+      rey_di_score = #{record.reyDiScore,jdbcType=INTEGER},
+      rey_present_start = #{record.reyPresentStart,jdbcType=VARCHAR},
+      rey_present_end = #{record.reyPresentEnd,jdbcType=VARCHAR},
+      rey_sd_score = #{record.reySdScore,jdbcType=INTEGER},
+      rey_dd_score = #{record.reyDdScore,jdbcType=INTEGER},
+      rey_delay_start = #{record.reyDelayStart,jdbcType=VARCHAR},
+      rey_delay_end = #{record.reyDelayEnd,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDO">
+    update adhd_rey_task
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="reySiScore != null">
+        rey_si_score = #{reySiScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDiScore != null">
+        rey_di_score = #{reyDiScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyPresentStart != null">
+        rey_present_start = #{reyPresentStart,jdbcType=VARCHAR},
+      </if>
+      <if test="reyPresentEnd != null">
+        rey_present_end = #{reyPresentEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="reySdScore != null">
+        rey_sd_score = #{reySdScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDdScore != null">
+        rey_dd_score = #{reyDdScore,jdbcType=INTEGER},
+      </if>
+      <if test="reyDelayStart != null">
+        rey_delay_start = #{reyDelayStart,jdbcType=VARCHAR},
+      </if>
+      <if test="reyDelayEnd != null">
+        rey_delay_end = #{reyDelayEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zju.medical.common.pojo.xdo.ReyTaskDO">
+    update adhd_rey_task
+    set user_id = #{userId,jdbcType=INTEGER},
+      rey_si_score = #{reySiScore,jdbcType=INTEGER},
+      rey_di_score = #{reyDiScore,jdbcType=INTEGER},
+      rey_present_start = #{reyPresentStart,jdbcType=VARCHAR},
+      rey_present_end = #{reyPresentEnd,jdbcType=VARCHAR},
+      rey_sd_score = #{reySdScore,jdbcType=INTEGER},
+      rey_dd_score = #{reyDdScore,jdbcType=INTEGER},
+      rey_delay_start = #{reyDelayStart,jdbcType=VARCHAR},
+      rey_delay_end = #{reyDelayEnd,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
