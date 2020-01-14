@@ -8,8 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by white_wolf on 2020/1/11.
@@ -21,7 +25,10 @@ import java.util.List;
 public class MarkServiceImpl implements MarkService {
 
     private static final Logger logger = LoggerFactory.getLogger(MarkServiceImpl.class);
-    final static String rePattern = "\\d+/\\d+/\\d+ \\d+:\\d+:\\d+.*?";
+    private static final String rePattern = "\\d+/\\d+/\\d+ \\d+:\\d+:\\d+.*?";
+    //时间格式
+    public static final String formatterString = "yyyy/MM/dd HH:mm:ss";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatterString);
 
     @Override
     public String doMark(List<Mark> marks, File file) {
@@ -60,6 +67,19 @@ public class MarkServiceImpl implements MarkService {
 //                    }
 //                }
 
+                if (temp.matches(rePattern)) {
+                    LocalDateTime recordTime = LocalDateTime.parse(temp.substring(0,formatterString.length()), formatter);
+                    for (Mark mark : marksToMark) {
+                        LocalDateTime markTime = LocalDateTime.parse(mark.getMarkTime(), formatter);
+                        Duration duration = Duration.between(recordTime,markTime);
+                        if (!duration.isNegative() && duration.getSeconds()<=1) {
+                            outTemp.append("\t\tmark" + mark.getMarkId() + ":" + mark.getMarkName());
+                        }
+                    }
+                }
+
+
+
                 bw.write(outTemp.toString());
                 bw.newLine();
                 temp = br.readLine();
@@ -68,14 +88,14 @@ public class MarkServiceImpl implements MarkService {
             br.close();
 
             //数据后标记
-            bw.write("标记列表:");
-            bw.newLine();
-            bw.write("id\t\tname\t\ttime");
-            bw.newLine();
-            for (Mark mark : marksToMark) {
-                bw.write(mark.getMarkId() + "\t\t" + mark.getMarkName() + "\t\t" + mark.getMarkTime());
-                bw.newLine();
-            }
+//            bw.write("标记列表:");
+//            bw.newLine();
+//            bw.write("id\t\tname\t\ttime");
+//            bw.newLine();
+//            for (Mark mark : marksToMark) {
+//                bw.write(mark.getMarkId() + "\t\t" + mark.getMarkName() + "\t\t" + mark.getMarkTime());
+//                bw.newLine();
+//            }
 
             bw.flush();
             bw.close();
