@@ -1,6 +1,6 @@
 package com.zju.medical.common.pojo;
 
-import com.zju.medical.common.pojo.xdo.*;
+import com.zju.medical.common.pojo.vo.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,13 +13,13 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class TaskDataAndMark {
+public class TaskDataAndMarkVO {
     public List<Mark> marks;
     public int taskId;
-    public ReyTaskDO task1;
-    public WordTaskDO task2;
-    public StroopTaskDO task3;
-    public SnapTaskDO task4;
-    public RestingTaskDO taskQuiet;
+    public ReyTaskVO task1;
+    public WordTaskVO task2;
+    public StroopTaskVO task3;
+    public SnapTaskVO task4;
+    public RestingTaskVO taskQuiet;
     public int userId;
 }

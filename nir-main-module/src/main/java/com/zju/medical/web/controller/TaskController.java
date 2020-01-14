@@ -1,6 +1,6 @@
 package com.zju.medical.web.controller;
 
-import com.zju.medical.common.pojo.TaskDataAndMark;
+import com.zju.medical.common.pojo.TaskDataAndMarkVO;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.common.utils.JsonUtils;
 import com.zju.medical.nir.biz.MarkService;
@@ -32,9 +32,11 @@ public class TaskController {
     @PostMapping(value = "/task")
     public ReturnResult<Object> addAdhdTask(@RequestParam("file") MultipartFile file, String data) {
 
-        TaskDataAndMark taskDataAndMark = JsonUtils.objectFromJson(data, TaskDataAndMark.class);
-        if (true)
-        return new ReturnResult<>("ok", null, null);
+        TaskDataAndMarkVO taskDataAndMark = JsonUtils.objectFromJson(data, TaskDataAndMarkVO.class);
+        if (true){
+            return new ReturnResult<>("ok", null, null);
+
+        }
         String RPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         String tempFilePath = "temp.txt";
         File tempFile = new File(RPath, tempFilePath);
