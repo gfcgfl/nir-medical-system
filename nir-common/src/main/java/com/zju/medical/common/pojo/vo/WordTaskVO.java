@@ -17,20 +17,6 @@ public class WordTaskVO {
 
     private Integer bWordTime;
 
-//    private String bWordStart;
-//
-//    private String bWordEnd;
-//
-//    private Date createTime;
-
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-
     public Integer getUserId() {
         return userId;
     }
@@ -55,6 +41,61 @@ public class WordTaskVO {
         this.aWordTime = aWordTime;
     }
 
+    public Integer getbWordMis() {
+        return bWordMis;
+    }
+
+    public void setbWordMis(Integer bWordMis) {
+        this.bWordMis = bWordMis;
+    }
+
+    public Integer getbWordTime() {
+        return bWordTime;
+    }
+
+    public void setbWordTime(Integer bWordTime) {
+        this.bWordTime = bWordTime;
+    }
+
+
+    //    private String bWordStart;
+//
+//    private String bWordEnd;
+//
+//    private Date createTime;
+
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Integer getaWordMis() {
+//        return aWordMis;
+//    }
+//
+//    public void setaWordMis(Integer aWordMis) {
+//        this.aWordMis = aWordMis;
+//    }
+//
+//    public Integer getaWordTime() {
+//        return aWordTime;
+//    }
+//
+//    public void setaWordTime(Integer aWordTime) {
+//        this.aWordTime = aWordTime;
+//    }
+
 //    public String getaWordStart() {
 //        return aWordStart;
 //    }
@@ -71,21 +112,21 @@ public class WordTaskVO {
 //        this.aWordEnd = aWordEnd == null ? null : aWordEnd.trim();
 //    }
 
-    public Integer getbWordMis() {
-        return bWordMis;
-    }
-
-    public void setbWordMis(Integer bWordMis) {
-        this.bWordMis = bWordMis;
-    }
-
-    public Integer getbWordTime() {
-        return bWordTime;
-    }
-
-    public void setbWordTime(Integer bWordTime) {
-        this.bWordTime = bWordTime;
-    }
+//    public Integer getbWordMis() {
+//        return bWordMis;
+//    }
+//
+//    public void setbWordMis(Integer bWordMis) {
+//        this.bWordMis = bWordMis;
+//    }
+//
+//    public Integer getbWordTime() {
+//        return bWordTime;
+//    }
+//
+//    public void setbWordTime(Integer bWordTime) {
+//        this.bWordTime = bWordTime;
+//    }
 
 //    public String getbWordStart() {
 //        return bWordStart;

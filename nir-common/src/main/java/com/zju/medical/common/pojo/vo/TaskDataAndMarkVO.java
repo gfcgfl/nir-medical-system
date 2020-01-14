@@ -19,7 +19,8 @@ public class TaskDataAndMarkVO {
     public ReyTaskVO task1;
     public WordTaskVO task2;
     public StroopTaskVO task3;
-    public SnapTaskVO task4;
     public RestingTaskVO taskQuiet;
+    public SnapTaskVO task5;
+
     public int userId;
 }

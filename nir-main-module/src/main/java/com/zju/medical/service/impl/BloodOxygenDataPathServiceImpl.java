@@ -6,7 +6,7 @@ import com.zju.medical.common.pojo.xdo.BloodOxygenDOExample;
 import com.zju.medical.common.result.ResultCodeEnum;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.dao.mapper.BloodOxygenMapper;
-import com.zju.medical.service.DataPathService;
+import com.zju.medical.service.BloodOxygenDataPathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -18,7 +18,7 @@ import java.util.List;
  *  by zys 20191022
  */
 @Service
-public class DataPathServiceImpl implements DataPathService {
+public class BloodOxygenDataPathServiceImpl implements BloodOxygenDataPathService {
 
     @Autowired
     private BloodOxygenMapper bloodOxygenMapper;

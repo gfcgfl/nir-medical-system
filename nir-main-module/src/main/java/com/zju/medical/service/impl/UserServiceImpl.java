@@ -56,21 +56,21 @@ public class UserServiceImpl implements UserService {
             userDo.setCreateTime(date);
             userDo.setUpdateTime(date);
             userMapper.insertSelective(userDo);
-            int userId = userDo.getId();
+//            int userId = userDo.getId();
+//
+//            //添加数据关联路径至数据库中
+//            String dataPath1 = userId + "xx1";
+//            String dataPath2 = userId + "xx2";
+//            String dataPath3 = userId + "xx3";
+//            BloodOxygenDO bloodOxygenDO = new BloodOxygenDO();
+//            bloodOxygenDO.setCreateTime(new Date());
+//            bloodOxygenDO.setDataPath1(dataPath1);
+//            bloodOxygenDO.setDataPath2(dataPath2);
+//            bloodOxygenDO.setDataPath3(dataPath3);
+//            bloodOxygenDO.setUserId(userId);
+//            bloodOxygenMapper.insertSelective(bloodOxygenDO);
 
-            //添加数据关联路径至数据库中
-            String dataPath1 = userId + "xx1";
-            String dataPath2 = userId + "xx2";
-            String dataPath3 = userId + "xx3";
-            BloodOxygenDO bloodOxygenDO = new BloodOxygenDO();
-            bloodOxygenDO.setCreateTime(new Date());
-            bloodOxygenDO.setDataPath1(dataPath1);
-            bloodOxygenDO.setDataPath2(dataPath2);
-            bloodOxygenDO.setDataPath3(dataPath3);
-            bloodOxygenDO.setUserId(userId);
-            bloodOxygenMapper.insertSelective(bloodOxygenDO);
-
-            return new ReturnResult<>(ResultCodeEnum.SUCCESS, userId);
+            return new ReturnResult<>(ResultCodeEnum.SUCCESS);
         }catch (Exception e){
             return new ReturnResult<>(ResultCodeEnum.FAIL);
         }

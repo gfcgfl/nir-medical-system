@@ -1,13 +1,13 @@
 package com.zju.medical.service;
 
 
-import com.zju.medical.common.pojo.xdo.ReyTaskDO;
-import com.zju.medical.common.pojo.xdo.SnapTaskDO;
-import com.zju.medical.common.pojo.xdo.StroopTaskDO;
-import com.zju.medical.common.pojo.xdo.WordTaskDO;
+import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;
+import com.zju.medical.common.pojo.xdo.*;
 import com.zju.medical.common.result.ReturnResult;
 
 public interface TaskService {
+
+    ReturnResult<Integer> addTask(String whichTask, TaskDataAndMarkVO taskDataAndMark);
 
     //rey任务相关接口
     ReturnResult<Integer> addReyTask(ReyTaskDO reyTaskDO);
@@ -44,6 +44,10 @@ public interface TaskService {
     ReturnResult<Integer> deleteWordTaskById(int userId);
 
     ReturnResult<WordTaskDO> selectWordTaskById(int userId);
+
+    // resting任务接口
+    ReturnResult<Integer> addRestingTask(RestingTaskDO restingTaskDO);
+
 
     //根据数据情况自动判断添加还是更新
     ReturnResult<Integer> addOrUpdateReyTask(ReyTaskDO reyTaskDO, int userId);

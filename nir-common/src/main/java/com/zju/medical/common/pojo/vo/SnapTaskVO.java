@@ -1,5 +1,6 @@
 package com.zju.medical.common.pojo.vo;
 
+
 public class SnapTaskVO {
 //    private Integer id;
 
@@ -8,16 +9,6 @@ public class SnapTaskVO {
     private Integer snapParentScore;
 
     private Integer snapTeacherScore;
-
-//    private Date createTime;
-
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
 
     public Integer getUserId() {
         return userId;
@@ -42,6 +33,19 @@ public class SnapTaskVO {
     public void setSnapTeacherScore(Integer snapTeacherScore) {
         this.snapTeacherScore = snapTeacherScore;
     }
+
+
+    //    private Date createTime;
+
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+
+
 
 //    public Date getCreateTime() {
 //        return createTime;

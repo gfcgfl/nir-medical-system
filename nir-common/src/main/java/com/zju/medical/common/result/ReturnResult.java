@@ -14,6 +14,9 @@ public class ReturnResult<T> {
     String code;
     T data;
 
+
+    public static final ReturnResult<Integer> FAILED = new ReturnResult<>(ResultCodeEnum.FAIL);
+
     public ReturnResult() {
     }
 
@@ -39,6 +42,9 @@ public class ReturnResult<T> {
         this.code = resultCodeEnum.getCode();
         this.data = data;
     }
+
+
+
 
 
 }

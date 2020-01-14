@@ -5,5 +5,6 @@ package com.zju.medical.common.pojo.vo;
  *
  * @author thebestwj
  */
+
 public class RestingTaskVO {
 }

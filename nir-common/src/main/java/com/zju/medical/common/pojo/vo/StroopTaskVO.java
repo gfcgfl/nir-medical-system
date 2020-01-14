@@ -1,5 +1,6 @@
 package com.zju.medical.common.pojo.vo;
 
+
 public class StroopTaskVO {
 //    private Integer id;
 
@@ -33,20 +34,6 @@ public class StroopTaskVO {
 
     private Integer dStroopTime;
 
-//    private String dStroopStart;
-//
-//    private String dStroopEnd;
-
-//    private Date createTime;
-
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-
     public Integer getUserId() {
         return userId;
     }
@@ -70,6 +57,77 @@ public class StroopTaskVO {
     public void setaStroopTime(Integer aStroopTime) {
         this.aStroopTime = aStroopTime;
     }
+
+    public Integer getcStroopMis() {
+        return cStroopMis;
+    }
+
+    public void setcStroopMis(Integer cStroopMis) {
+        this.cStroopMis = cStroopMis;
+    }
+
+    public Integer getcStroopTime() {
+        return cStroopTime;
+    }
+
+    public void setcStroopTime(Integer cStroopTime) {
+        this.cStroopTime = cStroopTime;
+    }
+
+    public Integer getdStroopMis() {
+        return dStroopMis;
+    }
+
+    public void setdStroopMis(Integer dStroopMis) {
+        this.dStroopMis = dStroopMis;
+    }
+
+    public Integer getdStroopTime() {
+        return dStroopTime;
+    }
+
+    public void setdStroopTime(Integer dStroopTime) {
+        this.dStroopTime = dStroopTime;
+    }
+
+
+    //    private String dStroopStart;
+//
+//    private String dStroopEnd;
+
+//    private Date createTime;
+
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Integer getaStroopMis() {
+//        return aStroopMis;
+//    }
+//
+//    public void setaStroopMis(Integer aStroopMis) {
+//        this.aStroopMis = aStroopMis;
+//    }
+//
+//    public Integer getaStroopTime() {
+//        return aStroopTime;
+//    }
+//
+//    public void setaStroopTime(Integer aStroopTime) {
+//        this.aStroopTime = aStroopTime;
+//    }
 
 //    public String getaStroopStart() {
 //        return aStroopStart;
@@ -118,56 +176,56 @@ public class StroopTaskVO {
 //    public void setbStroopEnd(String bStroopEnd) {
 //        this.bStroopEnd = bStroopEnd == null ? null : bStroopEnd.trim();
 //    }
-
-    public Integer getcStroopMis() {
-        return cStroopMis;
-    }
-
-    public void setcStroopMis(Integer cStroopMis) {
-        this.cStroopMis = cStroopMis;
-    }
-
-    public Integer getcStroopTime() {
-        return cStroopTime;
-    }
-
-    public void setcStroopTime(Integer cStroopTime) {
-        this.cStroopTime = cStroopTime;
-    }
-
-//    public String getcStroopStart() {
-//        return cStroopStart;
+//
+//    public Integer getcStroopMis() {
+//        return cStroopMis;
 //    }
 //
-//    public void setcStroopStart(String cStroopStart) {
-//        this.cStroopStart = cStroopStart == null ? null : cStroopStart.trim();
-//    }
-
-//    public String getcStroopEnd() {
-//        return cStroopEnd;
+//    public void setcStroopMis(Integer cStroopMis) {
+//        this.cStroopMis = cStroopMis;
 //    }
 //
-//    public void setcStroopEnd(String cStroopEnd) {
-//        this.cStroopEnd = cStroopEnd == null ? null : cStroopEnd.trim();
+//    public Integer getcStroopTime() {
+//        return cStroopTime;
 //    }
-
-    public Integer getdStroopMis() {
-        return dStroopMis;
-    }
-
-    public void setdStroopMis(Integer dStroopMis) {
-        this.dStroopMis = dStroopMis;
-    }
-
-    public Integer getdStroopTime() {
-        return dStroopTime;
-    }
-
-    public void setdStroopTime(Integer dStroopTime) {
-        this.dStroopTime = dStroopTime;
-    }
-
-//    public String getdStroopStart() {
+//
+//    public void setcStroopTime(Integer cStroopTime) {
+//        this.cStroopTime = cStroopTime;
+//    }
+//
+////    public String getcStroopStart() {
+////        return cStroopStart;
+////    }
+////
+////    public void setcStroopStart(String cStroopStart) {
+////        this.cStroopStart = cStroopStart == null ? null : cStroopStart.trim();
+////    }
+//
+////    public String getcStroopEnd() {
+////        return cStroopEnd;
+////    }
+////
+////    public void setcStroopEnd(String cStroopEnd) {
+////        this.cStroopEnd = cStroopEnd == null ? null : cStroopEnd.trim();
+////    }
+//
+//    public Integer getdStroopMis() {
+//        return dStroopMis;
+//    }
+//
+//    public void setdStroopMis(Integer dStroopMis) {
+//        this.dStroopMis = dStroopMis;
+//    }
+//
+//    public Integer getdStroopTime() {
+//        return dStroopTime;
+//    }
+//
+//    public void setdStroopTime(Integer dStroopTime) {
+//        this.dStroopTime = dStroopTime;
+//    }
+//
+////    public String getdStroopStart() {
 //        return dStroopStart;
 //    }
 //

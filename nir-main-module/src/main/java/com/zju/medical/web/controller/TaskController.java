@@ -4,6 +4,7 @@ import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.common.utils.JsonUtils;
 import com.zju.medical.nir.biz.MarkService;
+import com.zju.medical.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,20 @@ public class TaskController {
     @Autowired
     MarkService markService;
 
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private
+
     @PostMapping(value = "/task")
     public ReturnResult<Object> addAdhdTask(@RequestParam("file") MultipartFile file, String data) {
 
         TaskDataAndMarkVO taskDataAndMark = JsonUtils.objectFromJson(data, TaskDataAndMarkVO.class);
-        if (true){
-            return new ReturnResult<>("ok", null, null);
-
-        }
+//        if (true){
+//            return new ReturnResult<>("ok", "true", null);
+//
+//        }
         String RPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         String tempFilePath = "temp.txt";
         File tempFile = new File(RPath, tempFilePath);
@@ -70,7 +77,11 @@ public class TaskController {
         System.out.println(taskDataAndMark.getMarks());
         markService.doMark(taskDataAndMark.getMarks(), tempFile);
         //TODO 将TASK信息存入数据库
+        ReturnResult<Integer> taskResult = taskService.addTask(String.valueOf(taskDataAndMark.getTaskId()), taskDataAndMark);
 
-        return new ReturnResult<>("ok", null, null);
+
+        // todo  血氧数据写入
+
+        return new ReturnResult<>("ok", "true", null);
     }
 }
