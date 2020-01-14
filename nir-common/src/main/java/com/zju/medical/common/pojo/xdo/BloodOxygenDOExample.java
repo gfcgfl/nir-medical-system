@@ -494,6 +494,76 @@ public class BloodOxygenDOExample {
             addCriterion("data_path3 not between", value1, value2, "dataPath3");
             return (Criteria) this;
         }
+
+        public Criteria andDataPath4IsNull() {
+            addCriterion("data_path4 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4IsNotNull() {
+            addCriterion("data_path4 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4EqualTo(String value) {
+            addCriterion("data_path4 =", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4NotEqualTo(String value) {
+            addCriterion("data_path4 <>", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4GreaterThan(String value) {
+            addCriterion("data_path4 >", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4GreaterThanOrEqualTo(String value) {
+            addCriterion("data_path4 >=", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4LessThan(String value) {
+            addCriterion("data_path4 <", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4LessThanOrEqualTo(String value) {
+            addCriterion("data_path4 <=", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4Like(String value) {
+            addCriterion("data_path4 like", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4NotLike(String value) {
+            addCriterion("data_path4 not like", value, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4In(List<String> values) {
+            addCriterion("data_path4 in", values, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4NotIn(List<String> values) {
+            addCriterion("data_path4 not in", values, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4Between(String value1, String value2) {
+            addCriterion("data_path4 between", value1, value2, "dataPath4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataPath4NotBetween(String value1, String value2) {
+            addCriterion("data_path4 not between", value1, value2, "dataPath4");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

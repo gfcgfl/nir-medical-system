@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zju.medical.dao.mapper.BloodOxygenMapper">
-  <resultMap id="BaseResultMap" type="com.zju.medical.common.pojo.xdo.BloodOxygenDO">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+<mapper namespace="com.zju.medical.dao.mapper.ReportMapper">
+  <resultMap id="BaseResultMap" type="com.zju.medical.common.pojo.xdo.ReportDO">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="report_path" jdbcType="VARCHAR" property="reportPath" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="data_path1" jdbcType="VARCHAR" property="dataPath1" />
-    <result column="data_path2" jdbcType="VARCHAR" property="dataPath2" />
-    <result column="data_path3" jdbcType="VARCHAR" property="dataPath3" />
-    <result column="data_path4" jdbcType="VARCHAR" property="dataPath4" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, create_time, data_path1, data_path2, data_path3, data_path4
+    user_id, report_path, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDOExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.zju.medical.common.pojo.xdo.ReportDOExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from blood_oxygen
+    from report
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,105 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from blood_oxygen
-    where id = #{id,jdbcType=INTEGER}
+    from report
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from blood_oxygen
-    where id = #{id,jdbcType=INTEGER}
+    delete from report
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDOExample">
-    delete from blood_oxygen
+  <delete id="deleteByExample" parameterType="com.zju.medical.common.pojo.xdo.ReportDOExample">
+    delete from report
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDO">
-    insert into blood_oxygen (id, user_id, create_time, 
-      data_path1, data_path2, data_path3, 
-      data_path4)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{dataPath1,jdbcType=VARCHAR}, #{dataPath2,jdbcType=VARCHAR}, #{dataPath3,jdbcType=VARCHAR}, 
-      #{dataPath4,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.zju.medical.common.pojo.xdo.ReportDO">
+    insert into report (user_id, report_path, create_time, 
+      update_time)
+    values (#{userId,jdbcType=INTEGER}, #{reportPath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDO">
-    insert into blood_oxygen
+  <insert id="insertSelective" parameterType="com.zju.medical.common.pojo.xdo.ReportDO">
+    insert into report
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="reportPath != null">
+        report_path,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="dataPath1 != null">
-        data_path1,
-      </if>
-      <if test="dataPath2 != null">
-        data_path2,
-      </if>
-      <if test="dataPath3 != null">
-        data_path3,
-      </if>
-      <if test="dataPath4 != null">
-        data_path4,
+      <if test="updateTime != null">
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="reportPath != null">
+        #{reportPath,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="dataPath1 != null">
-        #{dataPath1,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath2 != null">
-        #{dataPath2,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath3 != null">
-        #{dataPath3,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath4 != null">
-        #{dataPath4,jdbcType=VARCHAR},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDOExample" resultType="java.lang.Long">
-    select count(*) from blood_oxygen
+  <select id="countByExample" parameterType="com.zju.medical.common.pojo.xdo.ReportDOExample" resultType="java.lang.Long">
+    select count(*) from report
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update blood_oxygen
+    update report
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportPath != null">
+        report_path = #{record.reportPath,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.dataPath1 != null">
-        data_path1 = #{record.dataPath1,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dataPath2 != null">
-        data_path2 = #{record.dataPath2,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dataPath3 != null">
-        data_path3 = #{record.dataPath3,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dataPath4 != null">
-        data_path4 = #{record.dataPath4,jdbcType=VARCHAR},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -194,50 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update blood_oxygen
-    set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+    update report
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      report_path = #{record.reportPath,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      data_path1 = #{record.dataPath1,jdbcType=VARCHAR},
-      data_path2 = #{record.dataPath2,jdbcType=VARCHAR},
-      data_path3 = #{record.dataPath3,jdbcType=VARCHAR},
-      data_path4 = #{record.dataPath4,jdbcType=VARCHAR}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDO">
-    update blood_oxygen
+  <update id="updateByPrimaryKeySelective" parameterType="com.zju.medical.common.pojo.xdo.ReportDO">
+    update report
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
+      <if test="reportPath != null">
+        report_path = #{reportPath,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="dataPath1 != null">
-        data_path1 = #{dataPath1,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath2 != null">
-        data_path2 = #{dataPath2,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath3 != null">
-        data_path3 = #{dataPath3,jdbcType=VARCHAR},
-      </if>
-      <if test="dataPath4 != null">
-        data_path4 = #{dataPath4,jdbcType=VARCHAR},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zju.medical.common.pojo.xdo.BloodOxygenDO">
-    update blood_oxygen
-    set user_id = #{userId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.zju.medical.common.pojo.xdo.ReportDO">
+    update report
+    set report_path = #{reportPath,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      data_path1 = #{dataPath1,jdbcType=VARCHAR},
-      data_path2 = #{dataPath2,jdbcType=VARCHAR},
-      data_path3 = #{dataPath3,jdbcType=VARCHAR},
-      data_path4 = #{dataPath4,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -34,11 +34,11 @@ public interface BloodOxygenWaveformImgService {
      * 根据每个任务的血氧数据画出波形图，存为文件后返回文件绝对路径
      * 每个任务AdhdTaskTypeEnum 生成n个图片（对应n个路径,放在list中）
      * @param taskBloodOxygenInfo
-     * @param imgFileNamePrefix  保存的图片文件名的前缀
+     * @param userIdString
      * @return
      */
     Map<AdhdTaskTypeEnum, List<String>> createImgFile(
             Map<AdhdTaskTypeEnum, ReportDataBO.BloodOxygenInfoForTask> taskBloodOxygenInfo,
-            String imgFileNamePrefix);
+            String userIdString);
 
 }

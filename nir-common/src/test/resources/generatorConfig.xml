@@ -52,7 +52,7 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- 指定数据库表 -->
-        <table catalog="nir" tableName="report" domainObjectName="ReportDO" mapperName="ReportMapper">
+        <table catalog="nir" tableName="blood_oxygen" domainObjectName="BloodOxygenDO" mapperName="BloodOxygenMapper">
             <!--<property name="constructorBased" value="true"/>-->
             <property name="ignoreQualifiersAtRuntime" value="true"/>
         </table>

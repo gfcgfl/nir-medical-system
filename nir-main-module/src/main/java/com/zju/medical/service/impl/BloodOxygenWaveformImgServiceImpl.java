@@ -40,7 +40,7 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
     @Override
     public Map<AdhdTaskTypeEnum, List<String>> createImgFile(
             Map<AdhdTaskTypeEnum, ReportDataBO.BloodOxygenInfoForTask> taskBloodOxygenInfo,
-            String imgFileNamePrefix) {
+            String userIdString) {
 
 
         File imgStorageDir = new File(ReportConstant.CLASSPATH, ReportConstant.IMG_FILE_SAVE_PATH);
@@ -51,14 +51,18 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
             AdhdTaskTypeEnum taskType = entry.getKey();
             ReportDataBO.BloodOxygenInfoForTask taskData = entry.getValue();
             String dataFilePath = taskData.getFilePath();
-
+            if (StringUtils.isEmpty(dataFilePath))
+            {
+                continue;
+            }
             try {
                 String pyFilePath = new File(ReportConstant.CLASSPATH, ReportConstant.PY_SCRIPT_PATH).getAbsolutePath();
                 String[] params = {"python",
                         pyFilePath,
                         dataFilePath,
                         imgStorageDir.getAbsolutePath(),
-                        imgFileNamePrefix
+                        // 生成的图片的前缀，用以区分不同的图片
+                        userIdString + "-task" + taskType.getTaskIdentifier() + "-"
                 };
 
                 InputStream inputStream = Runtime.getRuntime().exec(params).getInputStream();

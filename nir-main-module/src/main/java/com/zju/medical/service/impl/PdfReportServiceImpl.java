@@ -89,7 +89,11 @@ public class PdfReportServiceImpl implements PdfReportService {
 
                 document.newPage();
                 document.add(PdfFontUtils.getFont(2, taskType.getTaskChineseName()));
-                document.add(PdfFontUtils.getFont(6, "得分：" + reportDataBO.getTaskScoreInfo().get(taskType).getScoreMap().toString()));
+                ReportDataBO.ScoreInfoForTask scoreInfoForTask = reportDataBO.getTaskScoreInfo().get(taskType);
+                if (scoreInfoForTask == null) {
+                    continue;
+                }
+                document.add(PdfFontUtils.getFont(6, "得分：" + scoreInfoForTask.getScoreMap().toString()));
 
                 float[] widths = {0.7f, 4f};
                 PdfPTable table = new PdfPTable(widths);

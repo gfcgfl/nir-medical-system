@@ -176,6 +176,7 @@ public class ReportServiceImpl implements ReportService {
             taskAndScore.put(AdhdTaskTypeEnum.SNAP_TASK, scoreInfo);
         }
 
+
         reportData.setTaskScoreInfo(taskAndScore);
 
         Map<AdhdTaskTypeEnum, ReportDataBO.BloodOxygenInfoForTask> taskAndBloodOxygen = new TreeMap<>();

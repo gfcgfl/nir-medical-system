@@ -1,6 +1,5 @@
 package com.zju.medical.dao.mapper;
 
-
 import com.zju.medical.common.pojo.xdo.BloodOxygenDO;
 import com.zju.medical.common.pojo.xdo.BloodOxygenDOExample;
 import org.apache.ibatis.annotations.Param;

@@ -70,6 +70,6 @@ public class BloodOxygenDO {
     }
 
     public void setDataPath4(String dataPath4) {
-        this.dataPath4 = dataPath4;
+        this.dataPath4 = dataPath4 == null ? null : dataPath4.trim();
     }
 }
