@@ -28,7 +28,7 @@ public class ReportServiceImpl implements ReportService {
     private UserService userService;
 
     @Autowired
-    private DataPathService dataPathService;
+    private BloodOxygenDataPathService dataPathService;
 
     @Autowired
     private TaskService taskService;
@@ -56,10 +56,10 @@ public class ReportServiceImpl implements ReportService {
         ReyTaskDO reyTaskData = reyTask.getData();
         ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
         scoreInfo.setTaskDate(reyTaskData.getCreateTime());
-        scoreInfo.addScore("复杂图形即时结构", reyTaskData.getReySiScore());
-        scoreInfo.addScore("复杂图形即时细节", reyTaskData.getReyDiScore());
-        scoreInfo.addScore("复杂图形延迟结构", reyTaskData.getReySdScore());
-        scoreInfo.addScore("复杂图形延迟细节 ", reyTaskData.getReyDdScore());
+        scoreInfo.addScore("图形即时结构得分", reyTaskData.getReySiScore());
+        scoreInfo.addScore("图形即时细节得分", reyTaskData.getReyDiScore());
+        scoreInfo.addScore("图形延迟结构得分", reyTaskData.getReySdScore());
+        scoreInfo.addScore("图形延迟细节得分 ", reyTaskData.getReyDdScore());
         taskAndScore.put(AdhdTaskTypeEnum.REY_COMPLEX_FIGURE_MEMORY_TASK, scoreInfo);
 
         WordTaskDO wordTaskData = taskService.selectWordTaskById(userId).getData();
@@ -74,14 +74,14 @@ public class ReportServiceImpl implements ReportService {
         StroopTaskDO stroopTaskData = taskService.selectStroopTaskById(userId).getData();
         scoreInfo = new ReportDataBO.ScoreInfoForTask();
         scoreInfo.setTaskDate(stroopTaskData.getCreateTime());
-        scoreInfo.addScore("1部分完成时间", stroopTaskData.getaStroopTime());
-        scoreInfo.addScore("1部分错误数 ", stroopTaskData.getaStroopMis());
-        scoreInfo.addScore("2部分完成时间", stroopTaskData.getbStroopTime());
-        scoreInfo.addScore("2部分错误数 ", stroopTaskData.getbStroopMis());
-        scoreInfo.addScore("3部分完成时间", stroopTaskData.getcStroopTime());
-        scoreInfo.addScore("3部分错误数 ", stroopTaskData.getcStroopMis());
-        scoreInfo.addScore("4部分完成时间", stroopTaskData.getdStroopTime());
-        scoreInfo.addScore("4部分错误数 ", stroopTaskData.getdStroopMis());
+        scoreInfo.addScore("A读汉字完成时间", stroopTaskData.getaStroopTime());
+        scoreInfo.addScore("A读汉字错误数 ", stroopTaskData.getaStroopMis());
+        scoreInfo.addScore("B读颜色完成时间", stroopTaskData.getbStroopTime());
+        scoreInfo.addScore("B读颜色错误数 ", stroopTaskData.getbStroopMis());
+        scoreInfo.addScore("C色字名字完成时间", stroopTaskData.getcStroopTime());
+        scoreInfo.addScore("C色字名字错误数 ", stroopTaskData.getcStroopMis());
+        scoreInfo.addScore("D色字命色完成时间", stroopTaskData.getdStroopTime());
+        scoreInfo.addScore("D色字命色错误数 ", stroopTaskData.getdStroopMis());
         taskAndScore.put(AdhdTaskTypeEnum.STROOP_COLOR_WORDS_TASK, scoreInfo);
 
         SnapTaskDO snapTaskData = taskService.selectSnapTaskById(userId).getData();

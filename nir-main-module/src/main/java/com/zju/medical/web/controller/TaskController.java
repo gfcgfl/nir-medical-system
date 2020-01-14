@@ -4,6 +4,7 @@ import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.common.utils.JsonUtils;
 import com.zju.medical.nir.biz.MarkService;
+import com.zju.medical.service.BloodOxygenDataPathService;
 import com.zju.medical.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,10 @@ public class TaskController {
     private TaskService taskService;
 
     @Autowired
-    private
+    private BloodOxygenDataPathService bloodOxygenDataPathService;
 
     @PostMapping(value = "/task")
-    public ReturnResult<Object> addAdhdTask(@RequestParam("file") MultipartFile file, String data) {
+    public ReturnResult<Integer> addAdhdTask(@RequestParam("file") MultipartFile file, String data) {
 
         TaskDataAndMarkVO taskDataAndMark = JsonUtils.objectFromJson(data, TaskDataAndMarkVO.class);
 //        if (true){
@@ -75,13 +76,20 @@ public class TaskController {
 
 
         System.out.println(taskDataAndMark.getMarks());
-        markService.doMark(taskDataAndMark.getMarks(), tempFile);
-        //TODO 将TASK信息存入数据库
-        ReturnResult<Integer> taskResult = taskService.addTask(String.valueOf(taskDataAndMark.getTaskId()), taskDataAndMark);
+        String absPath = markService.doMark(taskDataAndMark.getMarks(), tempFile);
 
+        //将TASK信息存入数据库
+        String whichTask = String.valueOf(taskDataAndMark.getTaskId());
+        ReturnResult<Integer> taskResult = taskService.addTask(whichTask, taskDataAndMark);
 
-        // todo  血氧数据写入
+        if (!taskResult.getCode().equals("true")) {
+            return taskResult;
+        }
 
-        return new ReturnResult<>("ok", "true", null);
+        //血氧数据路径写入
+        ReturnResult<Integer> dataPathResult
+                = bloodOxygenDataPathService.addOrUpdateDataPath(taskDataAndMark.getUserId(), whichTask, absPath);
+
+        return dataPathResult;
     }
 }

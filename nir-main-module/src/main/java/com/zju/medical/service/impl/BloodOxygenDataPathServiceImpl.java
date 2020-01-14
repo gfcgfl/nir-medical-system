@@ -14,6 +14,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.Date;
 import java.util.List;
 
+import static com.zju.medical.common.constant.AdhdTaskConstant.*;
+
 /**
  *  by zys 20191022
  */
@@ -22,6 +24,40 @@ public class BloodOxygenDataPathServiceImpl implements BloodOxygenDataPathServic
 
     @Autowired
     private BloodOxygenMapper bloodOxygenMapper;
+
+    @Override
+    public ReturnResult<Integer> addOrUpdateDataPath(int userId, String whichTask, String dataFileAbsPath) {
+
+        BloodOxygenDO bloodOxygenDO = new BloodOxygenDO();
+        switch (whichTask) {
+            case REY_COMPLEX_FIGURE_MEMORY: {
+                bloodOxygenDO.setDataPath1(dataFileAbsPath);
+                break;
+            }
+            case DIGIT_ALPHABET_LINKING: {
+                // 数字字母连线任务也就是 word task
+                bloodOxygenDO.setDataPath2(dataFileAbsPath);
+                break;
+            }
+            case STROOP_COLOR_WORDS: {
+                bloodOxygenDO.setDataPath3(dataFileAbsPath);
+                break;
+            }
+            case RESTING_STATE: {
+                // task quiet也就是resting task
+                bloodOxygenDO.setDataPath4(dataFileAbsPath);
+                break;
+            }
+            case SNAP_SCORE:
+            default: {
+
+                return ReturnResult.FAILED;
+            }
+        }
+
+        ReturnResult<Integer> result = this.addOrUpdateDataPath(bloodOxygenDO, userId);
+        return result;
+    }
 
     @Override
     public ReturnResult<Integer> addOrUpdateDataPath(BloodOxygenDO bloodOxygenDO, int userId) {

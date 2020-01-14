@@ -15,6 +15,8 @@ public class BloodOxygenDO {
 
     private String dataPath3;
 
+    private String dataPath4;
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class BloodOxygenDO {
 
     public void setDataPath3(String dataPath3) {
         this.dataPath3 = dataPath3 == null ? null : dataPath3.trim();
+    }
+
+    public String getDataPath4() {
+        return dataPath4;
+    }
+
+    public void setDataPath4(String dataPath4) {
+        this.dataPath4 = dataPath4;
     }
 }
