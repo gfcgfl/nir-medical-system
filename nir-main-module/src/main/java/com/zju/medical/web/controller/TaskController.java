@@ -1,7 +1,9 @@
 package com.zju.medical.web.controller;
 
+import com.zju.medical.common.constant.ReportConstant;
 import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;
 import com.zju.medical.common.result.ReturnResult;
+import com.zju.medical.common.utils.FileUtils;
 import com.zju.medical.common.utils.JsonUtils;
 import com.zju.medical.nir.biz.MarkService;
 import com.zju.medical.service.BloodOxygenDataPathService;
@@ -45,13 +47,10 @@ public class TaskController {
 //            return new ReturnResult<>("ok", "true", null);
 //
 //        }
-        String resourcePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         String dataFileDirPath = "static";
-        File dataFileDir = new File(resourcePath, dataFileDirPath);
+        File dataFileDir = new File(ReportConstant.CLASSPATH, dataFileDirPath);
 
-        if (!dataFileDir.exists()) {
-            dataFileDir.mkdir();
-        }
+        FileUtils.createDirectory(dataFileDir);
 
         File tempFile = new File(dataFileDir, file.getOriginalFilename());
 

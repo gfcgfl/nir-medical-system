@@ -112,8 +112,6 @@ public class PdfReportServiceImpl implements PdfReportService {
             return null;
         }
 
-        // todo 最好是再删除图片
-
         return filePath;
 
     }

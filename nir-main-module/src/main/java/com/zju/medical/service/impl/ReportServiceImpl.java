@@ -127,43 +127,54 @@ public class ReportServiceImpl implements ReportService {
         Map<AdhdTaskTypeEnum, ReportDataBO.ScoreInfoForTask> taskAndScore = new TreeMap<>();
 
         ReturnResult<ReyTaskDO> reyTask = taskService.selectReyTaskById(userId);
+
+
         ReyTaskDO reyTaskData = reyTask.getData();
-        ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
-        scoreInfo.setTaskDate(reyTaskData.getCreateTime());
-        scoreInfo.addScore("图形即时结构得分", reyTaskData.getReySiScore());
-        scoreInfo.addScore("图形即时细节得分", reyTaskData.getReyDiScore());
-        scoreInfo.addScore("图形延迟结构得分", reyTaskData.getReySdScore());
-        scoreInfo.addScore("图形延迟细节得分 ", reyTaskData.getReyDdScore());
-        taskAndScore.put(AdhdTaskTypeEnum.REY_COMPLEX_FIGURE_MEMORY_TASK, scoreInfo);
+        if (null != reyTaskData) {
+            ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
+            scoreInfo.setTaskDate(reyTaskData.getCreateTime());
+            scoreInfo.addScore("图形即时结构得分", reyTaskData.getReySiScore());
+            scoreInfo.addScore("图形即时细节得分", reyTaskData.getReyDiScore());
+            scoreInfo.addScore("图形延迟结构得分", reyTaskData.getReySdScore());
+            scoreInfo.addScore("图形延迟细节得分 ", reyTaskData.getReyDdScore());
+            taskAndScore.put(AdhdTaskTypeEnum.REY_COMPLEX_FIGURE_MEMORY_TASK, scoreInfo);
+        }
 
         WordTaskDO wordTaskData = taskService.selectWordTaskById(userId).getData();
-        scoreInfo = new ReportDataBO.ScoreInfoForTask();
-        scoreInfo.setTaskDate(wordTaskData.getCreateTime());
-        scoreInfo.addScore("A式完成时间", wordTaskData.getaWordTime());
-        scoreInfo.addScore("A式错误数", wordTaskData.getaWordMis());
-        scoreInfo.addScore("B式完成时间", wordTaskData.getbWordMis());
-        scoreInfo.addScore("B式错误数", wordTaskData.getbWordMis());
-        taskAndScore.put(AdhdTaskTypeEnum.DIGIT_ALPHABET_LINKING_TASK, scoreInfo);
+        if (null != wordTaskData) {
+            ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
+            scoreInfo.setTaskDate(wordTaskData.getCreateTime());
+            scoreInfo.addScore("A式完成时间", wordTaskData.getaWordTime());
+            scoreInfo.addScore("A式错误数", wordTaskData.getaWordMis());
+            scoreInfo.addScore("B式完成时间", wordTaskData.getbWordMis());
+            scoreInfo.addScore("B式错误数", wordTaskData.getbWordMis());
+            taskAndScore.put(AdhdTaskTypeEnum.DIGIT_ALPHABET_LINKING_TASK, scoreInfo);
+        }
 
         StroopTaskDO stroopTaskData = taskService.selectStroopTaskById(userId).getData();
-        scoreInfo = new ReportDataBO.ScoreInfoForTask();
-        scoreInfo.setTaskDate(stroopTaskData.getCreateTime());
-        scoreInfo.addScore("A读汉字完成时间", stroopTaskData.getaStroopTime());
-        scoreInfo.addScore("A读汉字错误数 ", stroopTaskData.getaStroopMis());
-        scoreInfo.addScore("B读颜色完成时间", stroopTaskData.getbStroopTime());
-        scoreInfo.addScore("B读颜色错误数 ", stroopTaskData.getbStroopMis());
-        scoreInfo.addScore("C色字名字完成时间", stroopTaskData.getcStroopTime());
-        scoreInfo.addScore("C色字名字错误数 ", stroopTaskData.getcStroopMis());
-        scoreInfo.addScore("D色字命色完成时间", stroopTaskData.getdStroopTime());
-        scoreInfo.addScore("D色字命色错误数 ", stroopTaskData.getdStroopMis());
-        taskAndScore.put(AdhdTaskTypeEnum.STROOP_COLOR_WORDS_TASK, scoreInfo);
+        if (null != stroopTaskData) {
+            ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
+            scoreInfo.setTaskDate(stroopTaskData.getCreateTime());
+            scoreInfo.addScore("A读汉字完成时间", stroopTaskData.getaStroopTime());
+            scoreInfo.addScore("A读汉字错误数 ", stroopTaskData.getaStroopMis());
+            scoreInfo.addScore("B读颜色完成时间", stroopTaskData.getbStroopTime());
+            scoreInfo.addScore("B读颜色错误数 ", stroopTaskData.getbStroopMis());
+            scoreInfo.addScore("C色字名字完成时间", stroopTaskData.getcStroopTime());
+            scoreInfo.addScore("C色字名字错误数 ", stroopTaskData.getcStroopMis());
+            scoreInfo.addScore("D色字命色完成时间", stroopTaskData.getdStroopTime());
+            scoreInfo.addScore("D色字命色错误数 ", stroopTaskData.getdStroopMis());
+            taskAndScore.put(AdhdTaskTypeEnum.STROOP_COLOR_WORDS_TASK, scoreInfo);
+        }
+
 
         SnapTaskDO snapTaskData = taskService.selectSnapTaskById(userId).getData();
-        scoreInfo = new ReportDataBO.ScoreInfoForTask();
-        scoreInfo.setTaskDate(snapTaskData.getCreateTime());
-        scoreInfo.addScore("家长评分", snapTaskData.getSnapParentScore());
-        scoreInfo.addScore("老师评分", snapTaskData.getSnapTeacherScore());
-        taskAndScore.put(AdhdTaskTypeEnum.SNAP_TASK, scoreInfo);
+        if (null != snapTaskData) {
+            ReportDataBO.ScoreInfoForTask scoreInfo = new ReportDataBO.ScoreInfoForTask();
+            scoreInfo.setTaskDate(snapTaskData.getCreateTime());
+            scoreInfo.addScore("家长评分", snapTaskData.getSnapParentScore());
+            scoreInfo.addScore("老师评分", snapTaskData.getSnapTeacherScore());
+            taskAndScore.put(AdhdTaskTypeEnum.SNAP_TASK, scoreInfo);
+        }
 
         reportData.setTaskScoreInfo(taskAndScore);
 
