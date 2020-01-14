@@ -1,6 +1,6 @@
-package com.zju.medical.common.pojo;
+package com.zju.medical.common.pojo.vo;
 
-import com.zju.medical.common.pojo.vo.*;
+import com.zju.medical.common.pojo.Mark;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

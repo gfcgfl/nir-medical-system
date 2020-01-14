@@ -2,7 +2,6 @@ package com.zju.medical.common.pojo.xdo;
 
 import java.util.Date;
 
-
 public class ReyTaskDO {
     private Integer id;
 

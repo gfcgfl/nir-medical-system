@@ -17,7 +17,9 @@ public enum AdhdTaskTypeEnum {
     //Stroop色词命名任务
     STROOP_COLOR_WORDS_TASK("Stroop色词命名任务", STROOP_COLOR_WORDS),
 
-    SNAP("斯诺佩评估量表", SNAP_SCORE);
+    RESTING_STATE_TASK("静息态任务", RESTING_STATE),
+
+    SNAP_TASK("斯诺佩评估量表", SNAP_SCORE);
 
     /**
      * 任务的中文名称

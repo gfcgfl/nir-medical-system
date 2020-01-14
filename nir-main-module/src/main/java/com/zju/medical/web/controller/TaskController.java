@@ -1,6 +1,6 @@
 package com.zju.medical.web.controller;
 
-import com.zju.medical.common.pojo.TaskDataAndMarkVO;
+import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;
 import com.zju.medical.common.result.ReturnResult;
 import com.zju.medical.common.utils.JsonUtils;
 import com.zju.medical.nir.biz.MarkService;
