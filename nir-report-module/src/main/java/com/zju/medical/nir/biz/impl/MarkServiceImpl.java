@@ -21,7 +21,7 @@ import java.util.List;
 public class MarkServiceImpl implements MarkService {
 
     private static final Logger logger = LoggerFactory.getLogger(MarkServiceImpl.class);
-    final static String rePatten = "\\d+/\\d+/\\d+ \\d+:\\d+:\\d+.*?";
+    final static String rePattern = "\\d+/\\d+/\\d+ \\d+:\\d+:\\d+.*?";
 
     @Override
     public String doMark(List<Mark> marks, File file) {
@@ -51,19 +51,32 @@ public class MarkServiceImpl implements MarkService {
             while (temp != null) {
                 StringBuffer outTemp = new StringBuffer(temp);
 
-                if (temp.matches(rePatten)) {
-                    for (Mark mark : marksToMark) {
-                        if (temp.indexOf(mark.getMarkTime()) != -1) {
-                            outTemp.append("\t\tmark" + mark.getMarkId() + ":" + mark.getMarkName());
-                        }
-                    }
-                }
+                //行后标记
+//                if (temp.matches(rePattern)) {
+//                    for (Mark mark : marksToMark) {
+//                        if (temp.indexOf(mark.getMarkTime()) != -1) {
+//                            outTemp.append("\t\tmark" + mark.getMarkId() + ":" + mark.getMarkName());
+//                        }
+//                    }
+//                }
+
                 bw.write(outTemp.toString());
                 bw.newLine();
                 temp = br.readLine();
             }
 
             br.close();
+
+            //数据后标记
+            bw.write("标记列表:");
+            bw.newLine();
+            bw.write("id\t\tname\t\ttime");
+            bw.newLine();
+            for (Mark mark : marksToMark) {
+                bw.write(mark.getMarkId() + "\t\t" + mark.getMarkName() + "\t\t" + mark.getMarkTime());
+                bw.newLine();
+            }
+
             bw.flush();
             bw.close();
         } catch (IOException e) {
