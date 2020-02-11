@@ -12,6 +12,7 @@ import com.zju.medical.common.pojo.bo.ReportDataBO;
 import com.zju.medical.common.utils.FileUtils;
 import com.zju.medical.common.utils.PdfFontUtils;
 import com.zju.medical.common.xenum.AdhdTaskTypeEnum;
+import com.zju.medical.config.ReportImageConfig;
 import com.zju.medical.service.BloodOxygenWaveformImgService;
 import com.zju.medical.service.PdfReportService;
 import org.slf4j.Logger;
@@ -37,11 +38,14 @@ public class PdfReportServiceImpl implements PdfReportService {
     @Autowired
     private BloodOxygenWaveformImgService waveformImgService;
 
+    @Autowired
+    private ReportImageConfig reportImageConfig;
+
     /**
      * pdf报告 相关的常量 {@link com.zju.medical.common.constant.ReportConstant}
      * pdf所需数据形式 暂定为 {@link com.zju.medical.common.pojo.bo.ReportDataBO}
      * <p>
-     * todo 所需要实现的接口是   给定pdf数据ReportDataBO 生成pdf 存储在pdf存储目录中， 然后返回pdf文件路径（相对于classpath）
+     * todo 所需要实现的接口是   给定pdf数据ReportDataBO 生成pdf 存储在pdf存储目录中， 然后返回pdf文件路径
      */
 
     @Override
@@ -50,7 +54,8 @@ public class PdfReportServiceImpl implements PdfReportService {
         // 画图并保存
         Map<AdhdTaskTypeEnum, List<String>> imgMap
                 = waveformImgService.createImgFile(reportDataBO.getTaskBloodOxygenInfo(),
-                reportDataBO.getUserId().toString());
+                reportDataBO.getUserId().toString(),
+                reportImageConfig);
 
         //创建pdf文件
         File pdfDir = new File(ReportConstant.CLASSPATH ,ReportConstant.PDF_FILE_SAVE_PATH);

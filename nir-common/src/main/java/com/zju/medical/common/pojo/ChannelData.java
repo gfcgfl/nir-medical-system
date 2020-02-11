@@ -1,6 +1,8 @@
 package com.zju.medical.common.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -9,6 +11,8 @@ import java.util.Date;
  * @author xiaoguo
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChannelData {
 
     private Date time;

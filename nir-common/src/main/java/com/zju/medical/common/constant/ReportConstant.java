@@ -58,11 +58,13 @@ public class ReportConstant {
     public static final String IMG_FILE_EXT_NAME = "png";
 
 
+
+
     /**
      * 图片的初始化画板大小 (但是实际显示出的图片大小可能不是这里设定的值)
      */
-    public static final int REPORT_IMAGE_WIDTH = 1500;
-    public static final int REPORT_IMAGE_HEIGHT = 300;
+    public static final int REPORT_IMAGE_WIDTH = 1800;
+    public static final int REPORT_IMAGE_HEIGHT = 500;
 
 
     /**
@@ -77,11 +79,55 @@ public class ReportConstant {
      *  |                 Y                  |
      * (0,0)----------------------------------|
      */
-    public static final int X = 30;
-    public static final int Y = 20;
+    public static final int X = 60;
+    public static final int Y = 50;
 
     public static final int WAVEFORM_DISPLAY_AREA_WIDTH = REPORT_IMAGE_WIDTH - X - X;
     public static final int WAVEFORM_DISPLAY_AREA_HEIGHT = REPORT_IMAGE_HEIGHT -Y -Y;
+
+    /**
+     * 图片的标题距离图片上边缘的距离
+     */
+    public static final int IMG_TITLE_Y = 25;
+    /**
+     * x轴上标注的坐标轴数值距离DISPLAY_AREA下边界的距离
+     */
+    private static final int DISTANCE_BLOW_LOWER_BOUND_OF_X_ANNOTATION = 10;
+    /**
+     * x轴上标注的坐标轴数值  在图中的实际y坐标 （中心点）
+     */
+    public static final int Y_VALUE_OF_X_ANNOTATION
+            = REPORT_IMAGE_HEIGHT - Y + DISTANCE_BLOW_LOWER_BOUND_OF_X_ANNOTATION;
+
+    /**
+     * y轴上标注的坐标轴数值  在图中的实际x坐标 （中心点）
+     */
+    public static final int X_VALUE_OF_Y_ANNOTATION = 30;
+
+    /**
+     * x轴上的坐标单位显示的位置 （中心坐标）
+     */
+    public static final int X_VALUE_OF_X_UNIT = WAVEFORM_DISPLAY_AREA_WIDTH + X + 30;
+    public static final int Y_VALUE_OF_X_UNIT = Y_VALUE_OF_X_ANNOTATION;
+
+    /**
+     * y轴上的坐标单位显示的位置 （中心坐标）
+     */
+    public static final int X_VALUE_OF_Y_UNIT = X;
+    public static final int Y_VALUE_OF_Y_UNIT = 25;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     static {

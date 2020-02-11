@@ -26,3 +26,10 @@ server:
     context-path: /
     session:
       timeout: 86400s   #session过期时间24h
+
+
+
+#====================下面的是自定义的配置==============================
+reportImg:
+  # 绘制报告中的图片的时候用什么来画  JAVA或者PYTHON
+  drawWith: JAVA
