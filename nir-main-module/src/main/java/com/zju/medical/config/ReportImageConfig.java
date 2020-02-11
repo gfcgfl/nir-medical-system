@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @author xiaoguo
  */
 @Configuration
-@ConfigurationProperties(prefix = "reportImg")
+@ConfigurationProperties(prefix = "report-img")
 public class ReportImageConfig {
 
     private String drawWith;

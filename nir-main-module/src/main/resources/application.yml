@@ -30,6 +30,6 @@ server:
 
 
 #====================下面的是自定义的配置==============================
-reportImg:
+report-img:
   # 绘制报告中的图片的时候用什么来画  JAVA或者PYTHON
-  drawWith: JAVA
+  draw-with: JAVA

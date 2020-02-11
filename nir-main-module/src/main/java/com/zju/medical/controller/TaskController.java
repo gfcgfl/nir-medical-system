@@ -1,4 +1,4 @@
-package com.zju.medical.web.controller;
+package com.zju.medical.controller;
 
 import com.zju.medical.common.constant.ReportConstant;
 import com.zju.medical.common.pojo.vo.TaskDataAndMarkVO;

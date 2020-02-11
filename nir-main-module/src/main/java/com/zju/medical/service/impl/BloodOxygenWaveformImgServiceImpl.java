@@ -94,6 +94,7 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
      * @param imgStorageDir  生成的图片存储的目录（文件夹）
      * @param userId         用户id
      * @param taskIdentifier 任务的标识
+     * @param pyFilePath 输入null则系统自动获取，指定了path则以指定的为准
      * @return
      */
     private List<String> drawWithPython(String dataFilePath, String imgStorageDir,
@@ -124,7 +125,6 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
             }
             String[] paths = rcv.split(";");
             ret = Arrays.asList(paths);
-//            result.put(taskType, Arrays.asList(paths));
 
         } catch (IOException e) {
             logger.error("任务" + taskIdentifier + ":执行py脚本出错");
@@ -150,7 +150,7 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
                 = BloodOxygenDataFileUtils.getFirstValidChannelData(new File(taskDataFilePath));
 
         if (firstValidChannelData == null) {
-            logger.error("{}的第{}个任务的血氧数据文件无有效通道数据");
+            logger.error("用户id为{}的第{}个任务的血氧数据文件无有效通道数据", userId, taskIdentifier);
             return null;
         }
         List<String> ret = ReportImageUtils.drawChannelWaveformAndSave(
