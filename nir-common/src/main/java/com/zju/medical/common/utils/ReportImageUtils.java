@@ -3,12 +3,13 @@ package com.zju.medical.common.utils;
 
 import com.zju.medical.common.constant.ReportConstant;
 import com.zju.medical.common.pojo.ChannelData;
+import com.zju.medical.common.pojo.ChannelDataAndMark;
+import com.zju.medical.common.pojo.Mark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import javax.imageio.ImageIO;
-import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -49,12 +50,12 @@ public class ReportImageUtils {
     /**
      * 为一个通道数据绘制波形图，并保存图片，返回保存文件绝对路径
      * 生成的文件按顺序依次是  TOI波形 、 THI 、 其他三个△参数
-     * @param data
+     * @param dataAndMark
      * @param imgFileNamePrefix 待保存的文件名前缀
      * @return 五个波形的路径， 返回null表明波形文件均创建失败
      */
     public static List<String> drawChannelWaveformAndSave(
-            @NotNull List<ChannelData> data,
+            ChannelDataAndMark dataAndMark,
             String imgSaveDir,
             String imgFileNamePrefix) {
 
@@ -62,7 +63,7 @@ public class ReportImageUtils {
 
         String imgPath = null;
         for (int i = 0; i < 5; i++) {
-            imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, imgSaveDir, LABEL[i], data);
+            imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, imgSaveDir, LABEL[i], dataAndMark);
             if(imgPath != null) {
                 result.add(imgPath);
             }
@@ -93,10 +94,14 @@ public class ReportImageUtils {
     private static String drawAndSaveSingleWaveform(String imgNamePrefix,
                                                     String imgSaveDir,
                                                     int drawWhich,
-                                                    List<ChannelData> data) {
+                                                    ChannelDataAndMark dataAndMark) {
         // len保存实际应该有多少帧数据 也就是它等于最后一帧的帧编号而不是等于data的size（正常情况两者是相等的）
         // 但是考虑到可能会出现 size=2，两个帧的编号却分别是1,3的情况，此时len=3
         int len;
+        List<ChannelData> data = dataAndMark.getChannelsData();
+        if (data == null || data.isEmpty()) {
+            return null;
+        }
         if (data instanceof ArrayList) {
             len = data.get(data.size() - 1).getFrameNum();
         } else {
@@ -176,7 +181,12 @@ public class ReportImageUtils {
         datas.add(paramData);
         // 绘制toi或者thi波形图并保存
         Draw draw = new Draw(ITEM_CHN[drawWhich] + "(" + ITEM_ENG[drawWhich] + ")",
-                fileName, imgSaveDir, ITEM_UNIT[drawWhich],datas, up, low);
+                fileName,
+                imgSaveDir,
+                ITEM_UNIT[drawWhich],
+                datas,
+                dataAndMark.getMarks(),
+                up, low);
         String savePath = draw.drawAndSave();
         return savePath;
 
@@ -196,7 +206,7 @@ public class ReportImageUtils {
 
 //        private static AtomicInteger curColor = new AtomicInteger(0);
         private static int curColor = 0;
-        private static Color[] colors = new Color[]{Color.RED, Color.BLUE, Color.GREEN,
+        private static Color[] colors = new Color[]{Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,
                 Color.ORANGE, Color.MAGENTA};
 
         private String imgTitle;
@@ -207,9 +217,13 @@ public class ReportImageUtils {
         /**
          * toi 、thi 、三个以△开头的参数的数据
          * 如果想将多个数据画在一张图里面则在list中添加多个参数的float[]数组
+         * float[]中记录了每一帧的数据
          */
         private List<Float[]> waveformData;
-
+        /**
+         * 标记信息（在哪一帧上有标记、标记的内容是啥），
+         */
+        private List<Mark> marks;
         private float waveformWidth;
         private float waveformHeight;
 
@@ -220,17 +234,22 @@ public class ReportImageUtils {
         private static Stroke INTERNAL_AXIS_STROKE = new BasicStroke(1.0f,
                 CAP_SQUARE, JOIN_MITER, 10.0f, new float[]{10.0f, 5.0f}, 0.0f);
 
-        private static Stroke WAVEFORM_STROKE = new BasicStroke(1.5f,
+        private static Stroke WAVEFORM_STROKE = new BasicStroke(1.2f,
+                CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
+
+        private static Stroke MARK_STROKE = new BasicStroke(1.5f,
                 CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
 
         private static Font FONT_TITLE = new Font("黑体", Font.BOLD,25);
         private static Font FONT_PLAIN = new Font("宋体", Font.PLAIN, 18);
+        private static Font FONT_MARK = new Font("宋体", Font.BOLD, 20);
 
         private static DecimalFormat FORMAT = new DecimalFormat("0.00");
 
         public Draw(String imgTitle, String imgName,
                     String imgSaveDir, String unit,
                     List<Float[]> waveformData,
+                    List<Mark> marks,
                     float valueMax, float valueMin) {
             // 图片中的标题
             this.imgTitle = imgTitle;
@@ -239,7 +258,7 @@ public class ReportImageUtils {
             this.imgSaveDir = imgSaveDir;
             this.unit = unit;
             this.waveformData = waveformData;
-
+            this.marks = marks;
             //在最大值最小值之外留出一点空间
             float temp = (valueMax - valueMin >= 6) ? 1.0f : 0.2f;
             this.waveformValueMax = valueMax + temp;
@@ -289,7 +308,7 @@ public class ReportImageUtils {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
             g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-
+            // =============做出数据波形图==============
             for (Float[] dats : waveformData) {
                 Color color = colors[curColor++];
                 if (curColor == colors.length) {
@@ -312,21 +331,42 @@ public class ReportImageUtils {
                     }
                 }
             }
+            // =============做出标记: 在对应的横轴（帧）上画一个点==============
+            int circleRadius = 5;
+            int circleDiameter = circleRadius << 1;
+            if (this.marks != null && !this.marks.isEmpty()) {
+                g.setStroke(MARK_STROKE);
+                g.setColor(Color.RED);
+
+                for (Mark mark : marks) {
+                    int xPos = getMappingPointPositionX((float) (mark.getFrameNum() - 1));
+//                    g.drawLine(xPos, Y, xPos, REPORT_IMAGE_HEIGHT - Y);
+
+//                    g.fillOval(xPos - circleRadius, Y - circleRadius, circleDiameter, circleDiameter);
+                    g.fillOval(xPos - circleRadius, REPORT_IMAGE_HEIGHT - Y - circleRadius,
+                            circleDiameter, circleDiameter);
+                    drawStringCenterAligned(mark.getMarkId().toString(),
+                            FONT_MARK, g, xPos, REPORT_IMAGE_HEIGHT - Y - 20);
+                }
+            }
         }
 
         private void drawCoordinates(Graphics2D g) {
+
             // ===== 1 画出图的边框========
             int x1 = ReportConstant.X;
             int y1 = REPORT_IMAGE_HEIGHT - Y;
             int x2 = ReportConstant.REPORT_IMAGE_WIDTH - ReportConstant.X;
             int y2 = Y;
+            // 边界的stroke暂且与波形的相同
+            g.setStroke(Draw.WAVEFORM_STROKE);
             g.setColor(Color.BLACK);
             // 四个边
             g.drawLine(x1, y1, x1, y2);
             g.drawLine(x1, y2, x2, y2);
             g.drawLine(x2, y1, x2, y2);
             g.drawLine(x2, y1, x1, y1);
-
+            g.setStroke(Draw.INTERNAL_AXIS_STROKE);
             // ======2 根据横轴宽度，决定竖直的轴线的相邻间的宽度并绘制他们（用细虚线）
             int interval = (int)Math.ceil(this.waveformWidth / 20);  //大概就画20条
             if (interval % 2 == 1) {
@@ -336,7 +376,7 @@ public class ReportImageUtils {
             // 这里为了方便直接使用getMappingPointPositionX方法
             int mappingPointPositionX = getMappingPointPositionX(0);
             int intervalGraphics2D = getMappingPointPositionX(interval) - mappingPointPositionX;
-            g.setStroke(Draw.INTERNAL_AXIS_STROKE);
+
             for (int i = mappingPointPositionX + intervalGraphics2D;
                  i < getMappingPointPositionX(this.waveformWidth);
                  i = i + intervalGraphics2D) {
@@ -352,8 +392,9 @@ public class ReportImageUtils {
             for (int i = mappingPointPositionX + intervalGraphics2D, xValue = interval;
                  i < getMappingPointPositionX(this.waveformWidth);
                  i += intervalGraphics2D, xValue += interval) {
-
-                drawStringCenterAligned(String.valueOf(xValue), Draw.FONT_PLAIN, g,
+                //因为实际上数据是每两秒一个，即当横洲上有20个数据的时候，横轴的数值应该到40s
+                int realXValue = xValue << 1;
+                drawStringCenterAligned(String.valueOf(realXValue), Draw.FONT_PLAIN, g,
                         i, Y_VALUE_OF_X_ANNOTATION);
             }
 
@@ -416,9 +457,6 @@ public class ReportImageUtils {
                 drawStringCenterAligned(FORMAT.format(yValue), FONT_PLAIN, g,
                         X_VALUE_OF_Y_ANNOTATION, y);
             }
-
-
-
             // ======6 标题title ===========
             drawStringCenterAligned(this.imgTitle,
                     Draw.FONT_TITLE,

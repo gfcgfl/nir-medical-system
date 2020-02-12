@@ -28,4 +28,6 @@ public class ChannelData {
     private Float dHbO2;
 
     private Float dtHb;
+
+
 }

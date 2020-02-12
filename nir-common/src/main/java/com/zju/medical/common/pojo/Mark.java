@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Mark {
-    private int markId;
+    private Integer markId;
+    /**
+     * frameNum用于指示当前标记是标记在第几帧数据上
+     */
+    private Integer frameNum;
     private String markTime;
     private String markName;
 }

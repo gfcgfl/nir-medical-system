@@ -2,7 +2,7 @@ package com.zju.medical.service.impl;
 
 
 import com.zju.medical.common.constant.ReportConstant;
-import com.zju.medical.common.pojo.ChannelData;
+import com.zju.medical.common.pojo.ChannelDataAndMark;
 import com.zju.medical.common.pojo.bo.ReportDataBO;
 import com.zju.medical.common.utils.BloodOxygenDataFileUtils;
 import com.zju.medical.common.utils.FileUtils;
@@ -53,7 +53,9 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
         FileUtils.createDirectory(imgStorageDir);
 
         Map<AdhdTaskTypeEnum, List<String>> result = new TreeMap<>();
-        for (Map.Entry<AdhdTaskTypeEnum, ReportDataBO.BloodOxygenInfoForTask> entry : taskBloodOxygenInfo.entrySet()) {
+        for (Map.Entry<AdhdTaskTypeEnum, ReportDataBO.BloodOxygenInfoForTask> entry
+                : taskBloodOxygenInfo.entrySet()) {
+
             // 任务类型： 是哪一个任务
             AdhdTaskTypeEnum taskType = entry.getKey();
             // 任务的血氧信息
@@ -146,10 +148,10 @@ public class BloodOxygenWaveformImgServiceImpl implements BloodOxygenWaveformImg
                                       String userId, String taskIdentifier) {
 
 
-        List<ChannelData> firstValidChannelData
+        ChannelDataAndMark firstValidChannelData
                 = BloodOxygenDataFileUtils.getFirstValidChannelData(new File(taskDataFilePath));
 
-        if (firstValidChannelData == null) {
+        if (firstValidChannelData.getChannelsData() == null) {
             logger.error("用户id为{}的第{}个任务的血氧数据文件无有效通道数据", userId, taskIdentifier);
             return null;
         }

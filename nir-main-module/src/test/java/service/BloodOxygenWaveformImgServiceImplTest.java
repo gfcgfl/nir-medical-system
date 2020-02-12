@@ -27,7 +27,7 @@ public class BloodOxygenWaveformImgServiceImplTest {
         method.setAccessible(true);
 
         String dataFilePath = "D:\\pro\\JAVA\\Prjs\\nir-medical-system\\" +
-                "nir-main-module\\target\\classes\\static\\task3-10-20200114043922804.txt";
+                "nir-main-module\\target\\classes\\static\\marked-task3-10-20200114043922805.txt";
         String imgStorageDir = "D:\\pro\\JAVA\\Prjs\\nir-medical-system\\" +
                 "nir-main-module\\src\\test\\resources\\img\\java";
         String userId = "10";
