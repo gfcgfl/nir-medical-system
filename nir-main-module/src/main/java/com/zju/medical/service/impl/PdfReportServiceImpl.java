@@ -95,21 +95,24 @@ public class PdfReportServiceImpl implements PdfReportService {
                 document.newPage();
                 document.add(PdfFontUtils.getFont(2, taskType.getTaskChineseName()));
                 ReportDataBO.ScoreInfoForTask scoreInfoForTask = reportDataBO.getTaskScoreInfo().get(taskType);
-                if (scoreInfoForTask == null) {
-                    continue;
+                if (scoreInfoForTask != null) {
+                    document.add(PdfFontUtils.getFont(6, "得分：" + scoreInfoForTask.getScoreMap().toString()));
                 }
-                document.add(PdfFontUtils.getFont(6, "得分：" + scoreInfoForTask.getScoreMap().toString()));
 
-                float[] widths = {0.7f, 4f};
-                PdfPTable table = new PdfPTable(widths);
+
+//                float[] widths = {0.7f, 4f};
+//                PdfPTable table = new PdfPTable(widths);
 
                 //添加图片
                 for (int i = 0; i < ReportConstant.IMG_NUM; i++) {
                     Image image= Image.getInstance(imgList.get(i));
-                    table.addCell(new PdfPCell(PdfFontUtils.getFont(6, ReportConstant.WAVEFORM_TITLE[i]+"波形")));
-                    table.addCell(image);
+                    image.setAlignment(Image.LEFT);
+                    image.scaleToFit(document.getPageSize().getWidth()-100,document.getPageSize().getHeight()/5);
+                    document.add(image);
+//                    table.addCell(new PdfPCell(PdfFontUtils.getFont(6, ReportConstant.WAVEFORM_TITLE[i]+"波形")));
+//                    table.addCell(image);
                 }
-                document.add(table);
+//                document.add(table);
 
             }
 

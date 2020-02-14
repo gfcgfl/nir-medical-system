@@ -61,6 +61,8 @@ public class ReportImageUtils {
 
         List<String> result = new ArrayList<>(5);
 
+//        ExecutorService executorService =  Executors.newFixedThreadPool(5);
+
         String imgPath = null;
         for (int i = 0; i < 5; i++) {
             imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, imgSaveDir, LABEL[i], dataAndMark);

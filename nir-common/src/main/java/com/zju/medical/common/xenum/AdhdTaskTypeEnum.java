@@ -25,7 +25,6 @@ public enum AdhdTaskTypeEnum {
      * 任务的中文名称
      */
     private String taskChineseName;
-
     /**
      * 任务标识符
      */
