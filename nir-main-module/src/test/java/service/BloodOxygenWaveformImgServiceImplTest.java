@@ -1,7 +1,10 @@
 package service;
 
+import com.zju.medical.common.pojo.ChannelDataAndMark;
+import com.zju.medical.common.utils.BloodOxygenDataFileUtils;
 import org.junit.Test;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -23,17 +26,18 @@ public class BloodOxygenWaveformImgServiceImplTest {
         Object o = aClass.newInstance();
 
 
-        Method method = aClass.getDeclaredMethod("drawWithJava", String.class, String.class, String.class, String.class);
+        Method method = aClass.getDeclaredMethod("drawWithJava", ChannelDataAndMark.class, String.class, String.class, String.class);
         method.setAccessible(true);
 
         String dataFilePath = "D:\\pro\\JAVA\\Prjs\\nir-medical-system\\" +
                 "nir-main-module\\target\\classes\\static\\marked-task3-10-20200114043922805.txt";
+        ChannelDataAndMark channelDataAndMark = BloodOxygenDataFileUtils.getFirstValidChannelData(new File(dataFilePath));
         String imgStorageDir = "D:\\pro\\JAVA\\Prjs\\nir-medical-system\\" +
                 "nir-main-module\\src\\test\\resources\\img\\java";
         String userId = "10";
         String taskIdentifier = "3";
 
-        List<String> invoke = (List<String>)method.invoke(o, dataFilePath, imgStorageDir, userId, taskIdentifier);
+        List<String> invoke = (List<String>)method.invoke(o, channelDataAndMark, imgStorageDir, userId, taskIdentifier);
 
         System.out.println();
     }

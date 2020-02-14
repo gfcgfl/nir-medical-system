@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,13 +44,14 @@ public class ReportImageUtils {
 
     private static int[] LABEL = {DRAW_TOI, DRAW_THI, DRAW_DHb, DRAW_DHbO2, DRAW_DtHb};
     private static String[] ITEM_ENG = {"TOI", "THI", "ΔHb", "ΔHbO2", "ΔtHb"};
-    private static String[] ITEM_CHN = {"局部组织氧饱和度" , "局部组织血红蛋白浓度指数",
+    private static String[] ITEM_CHN = {"局部组织氧饱和度", "局部组织血红蛋白浓度指数",
             "局部组织脱氧血红蛋白变化量", "局部组织含氧血红蛋白变化量", "局部组织总血红蛋白变化量"};
     private static String[] ITEM_UNIT = {"%", " ", "μmol/L", "μmol/L", "μmol/L"};
 
     /**
      * 为一个通道数据绘制波形图，并保存图片，返回保存文件绝对路径
      * 生成的文件按顺序依次是  TOI波形 、 THI 、 其他三个△参数
+     *
      * @param dataAndMark
      * @param imgFileNamePrefix 待保存的文件名前缀
      * @return 五个波形的路径， 返回null表明波形文件均创建失败
@@ -66,24 +68,11 @@ public class ReportImageUtils {
         String imgPath = null;
         for (int i = 0; i < 5; i++) {
             imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, imgSaveDir, LABEL[i], dataAndMark);
-            if(imgPath != null) {
+            if (imgPath != null) {
                 result.add(imgPath);
             }
 
         }
-//        // 获取到toi图片的保存绝对路径
-//        imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, DRAW_TOI, data);
-//        result.add(imgPath);
-//
-//        // 获取到thi图片的保存绝对路径
-//        imgPath = drawAndSaveSingleWaveform(imgFileNamePrefix, DRAW_THI, data);
-//        result.add(imgPath);
-//
-//
-//        // 获取到其他三个参数的图片的保存绝对路径
-//        imgPath = drawAndSaveOtherThreeWaveform(imgFileNamePrefix, DRAW_OTHER_THREE, data);
-//        result.add(imgPath);
-
 
         return result.isEmpty() ? null : result;
     }
@@ -91,6 +80,7 @@ public class ReportImageUtils {
 
     /**
      * 绘制并保存单条波形图
+     *
      * @return 为null说明创建图失败，否则为图片的绝对路径
      */
     private static String drawAndSaveSingleWaveform(String imgNamePrefix,
@@ -206,7 +196,7 @@ public class ReportImageUtils {
 
     private static class Draw {
 
-//        private static AtomicInteger curColor = new AtomicInteger(0);
+        //        private static AtomicInteger curColor = new AtomicInteger(0);
         private static int curColor = 0;
         private static Color[] colors = new Color[]{Color.BLACK, Color.RED, Color.BLUE, Color.GREEN,
                 Color.ORANGE, Color.MAGENTA};
@@ -242,9 +232,9 @@ public class ReportImageUtils {
         private static Stroke MARK_STROKE = new BasicStroke(1.5f,
                 CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
 
-        private static Font FONT_TITLE = new Font("黑体", Font.BOLD,25);
-        private static Font FONT_PLAIN = new Font("宋体", Font.PLAIN, 18);
-        private static Font FONT_MARK = new Font("宋体", Font.BOLD, 20);
+        private static Font FONT_TITLE = new Font("黑体", Font.BOLD, 40);
+        private static Font FONT_PLAIN = new Font("宋体", Font.PLAIN, 26);
+        private static Font FONT_MARK = new Font("黑体", Font.BOLD, 30);
 
         private static DecimalFormat FORMAT = new DecimalFormat("0.00");
 
@@ -310,7 +300,7 @@ public class ReportImageUtils {
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
             g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
             g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-            // =============做出数据波形图==============
+            // =============做出数据波形图 及在波形上标注mark的id==============
             for (Float[] dats : waveformData) {
                 Color color = colors[curColor++];
                 if (curColor == colors.length) {
@@ -321,36 +311,67 @@ public class ReportImageUtils {
                     continue;
                 }
                 Float pre = dats[0];
-                for (int i = 1; i < dats.length; i++) {
-                    Float cur = dats[i];
-                    if (pre != null && cur != null) {
+                if (this.marks.isEmpty()) {
+                    // 没有mark信息的时候只画图不进行mark的显示
+                    for (int i = 1; i < dats.length; i++) {
+                        Float cur = dats[i];
+                        if (pre == null || cur == null) {
+                            continue;
+                        }
                         int x1Pos = getMappingPointPositionX((float) (i - 1));
                         int y1Pos = getMappingPointPositionY(pre);
                         int x2Pos = getMappingPointPositionX((float) i);
                         int y2Pos = getMappingPointPositionY(cur);
                         g.drawLine(x1Pos, y1Pos, x2Pos, y2Pos);
                         pre = cur;
+
+                    }
+                } else {
+                    Iterator<Mark> iterator = this.marks.iterator();
+                    Mark mark = iterator.next();
+                    for (int i = 1; i < dats.length; i++) {
+                        Float cur = dats[i];
+                        if (pre == null || cur == null) {
+                            continue;
+                        }
+                        int x1Pos = getMappingPointPositionX((float) (i - 1));
+                        int y1Pos = getMappingPointPositionY(pre);
+                        int x2Pos = getMappingPointPositionX((float) i);
+                        int y2Pos = getMappingPointPositionY(cur);
+                        g.drawLine(x1Pos, y1Pos, x2Pos, y2Pos);
+                        if (mark != null && i + 1 == mark.getFrameNum()) {
+                            //标记mark
+                            g.fillOval(x2Pos - 5, y2Pos - 5,
+                                    10, 10);
+                            // 效果的试一试调一调
+                            int centerY = y2Pos - Y < 30 ? y2Pos + 25 : y2Pos - 25;
+                            drawStringCenterAligned(mark.getMarkId().toString(),
+                                    FONT_MARK, g, x2Pos, centerY);
+                            // 下一个mark
+                            mark = iterator.hasNext() ? iterator.next() : null;
+                        }
+                        pre = cur;
                     }
                 }
             }
-            // =============做出标记: 在对应的横轴（帧）上画一个点==============
-            int circleRadius = 5;
-            int circleDiameter = circleRadius << 1;
-            if (this.marks != null && !this.marks.isEmpty()) {
-                g.setStroke(MARK_STROKE);
-                g.setColor(Color.RED);
-
-                for (Mark mark : marks) {
-                    int xPos = getMappingPointPositionX((float) (mark.getFrameNum() - 1));
-//                    g.drawLine(xPos, Y, xPos, REPORT_IMAGE_HEIGHT - Y);
-
-//                    g.fillOval(xPos - circleRadius, Y - circleRadius, circleDiameter, circleDiameter);
-                    g.fillOval(xPos - circleRadius, REPORT_IMAGE_HEIGHT - Y - circleRadius,
-                            circleDiameter, circleDiameter);
-                    drawStringCenterAligned(mark.getMarkId().toString(),
-                            FONT_MARK, g, xPos, REPORT_IMAGE_HEIGHT - Y - 20);
-                }
-            }
+//            // =============做出标记: 在对应的横轴（帧）上画一个点==============
+//            int circleRadius = 5;
+//            int circleDiameter = circleRadius << 1;
+//            if (this.marks != null && !this.marks.isEmpty()) {
+//                g.setStroke(MARK_STROKE);
+//                g.setColor(Color.RED);
+//
+//                for (Mark mark : marks) {
+//                    int xPos = getMappingPointPositionX((float) (mark.getFrameNum() - 1));
+////                    g.drawLine(xPos, Y, xPos, REPORT_IMAGE_HEIGHT - Y);
+//
+////                    g.fillOval(xPos - circleRadius, Y - circleRadius, circleDiameter, circleDiameter);
+//                    g.fillOval(xPos - circleRadius, REPORT_IMAGE_HEIGHT - Y - circleRadius,
+//                            circleDiameter, circleDiameter);
+//                    drawStringCenterAligned(mark.getMarkId().toString(),
+//                            FONT_MARK, g, xPos, REPORT_IMAGE_HEIGHT - Y - 20);
+//                }
+//            }
         }
 
         private void drawCoordinates(Graphics2D g) {
@@ -370,7 +391,7 @@ public class ReportImageUtils {
             g.drawLine(x2, y1, x1, y1);
             g.setStroke(Draw.INTERNAL_AXIS_STROKE);
             // ======2 根据横轴宽度，决定竖直的轴线的相邻间的宽度并绘制他们（用细虚线）
-            int interval = (int)Math.ceil(this.waveformWidth / 20);  //大概就画20条
+            int interval = (int) Math.ceil(this.waveformWidth / 20);  //大概就画20条
             if (interval % 2 == 1) {
                 interval++;    //使得间隔是2的整数倍
             }
@@ -412,7 +433,7 @@ public class ReportImageUtils {
             int mappingPointPositionY = getMappingPointPositionY(0);
 
             // 需要注意将interval反映到Graphics2D上，得到在Graphics2D上的实际interval
-            intervalGraphics2D = mappingPointPositionY - getMappingPointPositionY((float)intervalY);
+            intervalGraphics2D = mappingPointPositionY - getMappingPointPositionY((float) intervalY);
             // 从纵坐标的0处开始分别向上向下话水平轴线 （保证轴线代表0.5或者5的倍数处）， 注意在g2d中的纵坐标是反着的
             for (int y = mappingPointPositionY; y > Y; y = y - intervalGraphics2D) {
                 if (y >= REPORT_IMAGE_HEIGHT - Y) {
@@ -432,7 +453,7 @@ public class ReportImageUtils {
             }
             // ======5 标注y轴的数值===============================
             // 先找到0处，并标注0 (如果0不在绘图范围内则不标注)
-            if(mappingPointPositionY <= REPORT_IMAGE_HEIGHT - Y
+            if (mappingPointPositionY <= REPORT_IMAGE_HEIGHT - Y
                     && mappingPointPositionY >= Y) {
                 drawStringCenterAligned("0", FONT_PLAIN, g,
                         X_VALUE_OF_Y_ANNOTATION, mappingPointPositionY);
@@ -504,11 +525,12 @@ public class ReportImageUtils {
 
         /**
          * 在x,y处居中显示字符串
+         *
          * @param string
          * @param font
          * @param g
-         * @param x Graphics2D中的x坐标值
-         * @param y Graphics2D中的y坐标值
+         * @param x      Graphics2D中的x坐标值
+         * @param y      Graphics2D中的y坐标值
          */
         private void drawStringCenterAligned(String string, Font font, Graphics2D g, int x, int y) {
             g.setFont(font);

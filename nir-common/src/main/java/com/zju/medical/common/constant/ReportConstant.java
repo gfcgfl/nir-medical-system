@@ -79,7 +79,7 @@ public class ReportConstant {
      *  |                 Y                  |
      * (0,0)----------------------------------|
      */
-    public static final int X = 60;
+    public static final int X = 85;
     public static final int Y = 50;
 
     public static final int WAVEFORM_DISPLAY_AREA_WIDTH = REPORT_IMAGE_WIDTH - X - X;
@@ -88,7 +88,7 @@ public class ReportConstant {
     /**
      * 图片的标题距离图片上边缘的距离
      */
-    public static final int IMG_TITLE_Y = 25;
+    public static final int IMG_TITLE_Y = 15;
     /**
      * x轴上标注的坐标轴数值距离DISPLAY_AREA下边界的距离
      */
@@ -102,7 +102,7 @@ public class ReportConstant {
     /**
      * y轴上标注的坐标轴数值  在图中的实际x坐标 （中心点）
      */
-    public static final int X_VALUE_OF_Y_ANNOTATION = 30;
+    public static final int X_VALUE_OF_Y_ANNOTATION = 40;
 
     /**
      * x轴上的坐标单位显示的位置 （中心坐标）

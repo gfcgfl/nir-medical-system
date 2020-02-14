@@ -63,7 +63,7 @@ public class ReportServiceImpl implements ReportService {
         /**
          * 插入或者更新report 路径到数据库
          */
-        ReturnResult<Integer> result = this.upsertReport(pdfAbsPath, userId);
+//        ReturnResult<Integer> result = this.upsertReport(pdfAbsPath, userId);
 
         String relativePath = getPathRelativeToClassPath(pdfAbsPath);
         /**
