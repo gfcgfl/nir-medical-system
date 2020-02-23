@@ -7,6 +7,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.zju.medical.common.constant.ReportConstant;
 import com.zju.medical.common.pojo.ChannelDataAndMark;
+import com.zju.medical.common.pojo.Mark;
 import com.zju.medical.common.pojo.bo.ReportDataBO;
 import com.zju.medical.common.utils.BloodOxygenDataFileUtils;
 import com.zju.medical.common.utils.FileUtils;
@@ -56,7 +57,7 @@ public class PdfReportServiceImpl implements PdfReportService {
     public String createPdf(ReportDataBO reportDataBO) {
 
         Map<AdhdTaskTypeEnum, BloodOxygenInfoForTask> taskBloodOxygenInfo
-                                    = reportDataBO.getTaskBloodOxygenInfo();
+                = reportDataBO.getTaskBloodOxygenInfo();
 
         // 获取每个任务的第一个有效通道的数据及其mark信息
         Map<AdhdTaskTypeEnum, ChannelDataAndMark> taskChannelDataAndMark = new HashMap<>(10);
@@ -80,7 +81,7 @@ public class PdfReportServiceImpl implements PdfReportService {
                 reportImageConfig);
 
         //创建pdf文件
-        File pdfDir = new File(ReportConstant.CLASSPATH ,ReportConstant.PDF_FILE_SAVE_PATH);
+        File pdfDir = new File(ReportConstant.CLASSPATH, ReportConstant.PDF_FILE_SAVE_PATH);
         FileUtils.createDirectory(pdfDir);
         FileOutputStream file = null;
         String filePath = new File(pdfDir, reportDataBO.getUserId() + ".pdf").getAbsolutePath();
@@ -92,19 +93,33 @@ public class PdfReportServiceImpl implements PdfReportService {
         }
 
         Document document = new Document();
-        //Step 2—Get a PdfWriter instance.
         try {
             PdfWriter.getInstance(document, file);
-            //Step 3—Open the Document.
             document.open();
 
-            //Step 4—Add content.
+            /*
+            首页
+             */
             document.add(PdfFontUtils.getFont(1, "血氧报告"));
 
             document.add(PdfFontUtils.getFont(3, "基本信息"));
             document.add(PdfFontUtils.getFont(6, "姓名：" + reportDataBO.getUserId().toString()));
             document.add(PdfFontUtils.getFont(6, "年龄：" + reportDataBO.getUserAge().toString()));
 
+            document.add(PdfFontUtils.getFont(3, "得分信息"));
+
+            for (Map.Entry<AdhdTaskTypeEnum, List<String>> entry : imgMap.entrySet()) {
+                AdhdTaskTypeEnum taskType = entry.getKey();
+                ReportDataBO.ScoreInfoForTask scoreInfoForTask = reportDataBO.getTaskScoreInfo().get(taskType);
+                if (scoreInfoForTask != null) {
+                    document.add(PdfFontUtils.getFont(6, taskType.getTaskChineseName() + "得分："));
+                    document.add(PdfFontUtils.getFont(6, scoreInfoForTask.getScoreMap().toString()));
+                }
+            }
+
+            /*
+            任务波形
+             */
             for (Map.Entry<AdhdTaskTypeEnum, List<String>> entry : imgMap.entrySet()) {
                 AdhdTaskTypeEnum taskType = entry.getKey();
                 List<String> imgList = entry.getValue();
@@ -114,28 +129,26 @@ public class PdfReportServiceImpl implements PdfReportService {
 
                 document.newPage();
                 document.add(PdfFontUtils.getFont(2, taskType.getTaskChineseName()));
-                ReportDataBO.ScoreInfoForTask scoreInfoForTask = reportDataBO.getTaskScoreInfo().get(taskType);
-                if (scoreInfoForTask != null) {
-                    document.add(PdfFontUtils.getFont(6, "得分：" + scoreInfoForTask.getScoreMap().toString()));
-                }
-
-
-//                float[] widths = {0.7f, 4f};
-//                PdfPTable table = new PdfPTable(widths);
 
                 //添加图片
+                final float PAGE_WIDTH = document.getPageSize().getWidth();
+                final float PAGE_HEIGHT = document.getPageSize().getHeight();
                 for (int i = 0; i < ReportConstant.IMG_NUM; i++) {
-                    Image image= Image.getInstance(imgList.get(i));
-                    image.setAlignment(Image.LEFT);
-                    image.scaleToFit(document.getPageSize().getWidth()-100,document.getPageSize().getHeight()/5);
+                    Image image = Image.getInstance(imgList.get(i));
+                    image.setAlignment(Image.ALIGN_CENTER);
+                    image.scaleToFit( PAGE_WIDTH, (PAGE_HEIGHT-200) / 5);
                     document.add(image);
-//                    table.addCell(new PdfPCell(PdfFontUtils.getFont(6, ReportConstant.WAVEFORM_TITLE[i]+"波形")));
-//                    table.addCell(image);
                 }
-//                document.add(table);
 
+                //标注信息
+                if(null != taskChannelDataAndMark.get(taskType).getMarks()) {
+                    StringBuffer sb = new StringBuffer("标注信息:");
+                    for (Mark mark : taskChannelDataAndMark.get(taskType).getMarks()) {
+                        sb.append("["+mark.getMarkId() + "]" + mark.getMarkName()+"; ");
+                    }
+                    document.add(PdfFontUtils.getFont(6,sb.toString()));
+                }
             }
-
             document.close();
 
         } catch (DocumentException | IOException e) {
